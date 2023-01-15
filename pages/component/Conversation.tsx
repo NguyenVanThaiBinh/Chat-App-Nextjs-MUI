@@ -9,7 +9,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { server } from "../index";
-import io from "Socket.IO-client";
+const io = require("socket.io-client");
 
 const StyleBox = styledMe(Box)`
   height: 83vh;
