@@ -24,10 +24,12 @@ export const TextInput = ({ props }: { props: any }) => {
   };
 
   const keyPress = (e: any) => {
-    if (e.keyCode == 13 && !e.shiftKey) {
+    if ((e.keyCode === 13 && !e.shiftKey) || (e.which === 13 && !e.shiftKey)) {
       e.preventDefault();
-      updateChatData(e.target.value);
-      setText("");
+      if (e.target.value != "") {
+        updateChatData(e.target.value);
+        setText("");
+      }
     }
   };
   return (
@@ -62,7 +64,6 @@ export const TextInput = ({ props }: { props: any }) => {
             <Button
               color="primary"
               sx={{ bottom: 0, position: "fixed", marginBottom: 6.5 }}
-             
             >
               <FavoriteRoundedIcon />
             </Button>

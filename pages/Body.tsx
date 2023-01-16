@@ -18,11 +18,12 @@ const SidebarContainer = styled(Grid)`
 export default function Body() {
   const [isChatMsg, setChatMsg] = useState(false);
   const [groupData, setGroupData] = useState({});
-  const handleOnClick = (id: any, memberData: any) => {
+  const handleOnClick = (id: any, memberData: any,photoGroupChatUrl:any) => {
     if (id != null) {
       const data = {
         groupId: id,
         memberData: memberData,
+        photoGroupChatUrl: photoGroupChatUrl
       };
       setChatMsg(true);
       setGroupData(data);

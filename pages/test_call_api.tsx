@@ -10,6 +10,7 @@ import Grid from "@mui/material/Grid";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ImageListItem from "@mui/material/ImageListItem";
+import Image from 'next/image';
 
 const Item = styled("div")(() => ({
   textAlign: "center",
@@ -103,7 +104,7 @@ const Test = () => {
                     : data.map((object: any) => (
                         <ListItem key={object.id}>
                           {
-                            <img
+                            <Image
                               src={`${object.thumbnailUrl}`}
                               alt={object.title}
                             />

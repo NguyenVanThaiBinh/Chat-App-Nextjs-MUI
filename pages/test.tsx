@@ -18,10 +18,10 @@ const Item = styled("div")(() => ({
 const Test = () => {
   const [jobs, setJobs] = useState([]);
   const [job, setJob] = useState("");
-  let getLocalState: [];
+
   useEffect(() => {
     // Perform localStorage action
-
+    let getLocalState: [];
     getLocalState = JSON.parse(localStorage.getItem("jobs") as any);
     setJobs(getLocalState);
     console.log("LocalState: ", getLocalState);

@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import Input from "@mui/material/Input";
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
+import Image from 'next/image';
 
 const Item = styled("div")(() => ({
   textAlign: "center",
@@ -53,7 +54,7 @@ const Test = () => {
             <Grid item xs={12}>
               {avatar && (
                 <Item>
-                  {<img src={avatar as any} alt="" width="250" height="250" />}
+                  {<Image  src={avatar as any} alt="" width="250" height="250" />}
                 </Item>
               )}
             </Grid>

@@ -4,8 +4,9 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Avatar from "@mui/material/Avatar";
 import React from "react";
-
+import DefaultAvatar from "../../asset/group_avatar.png";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { server } from "../index";
@@ -55,6 +56,7 @@ export const Conversation = ({ props: ChatDataProps }: { props: any }) => {
       .then((response) => response.json())
       .then((data) => {
         setChatData(data);
+        console.log(data);
         setLoading(false);
         scrollDownAfter1s();
       });
@@ -81,7 +83,6 @@ export const Conversation = ({ props: ChatDataProps }: { props: any }) => {
       socket.on("connect", () => {
         console.log("socket connected");
         socket.on(ChatDataProps.groupId, (msg: any) => {
-          console.log("Got message from users: " + msg.id_chat_group);
           setChatData((prev: any) => {
             const newJobs = [...prev, msg] as any;
             setIsScroll(false);
@@ -127,6 +128,17 @@ export const Conversation = ({ props: ChatDataProps }: { props: any }) => {
               <React.Fragment key={index}>
                 {session?.user?.email != data.from ? (
                   <Grid item xs={12} container key={index}>
+                    <Avatar
+                      sx={{
+                        width: 30,
+                        height: 30,
+                        marginTop: "5px",
+                        marginRight: "6px",
+                      }}
+                      alt="ChatAvatar"
+                      imgProps={{ referrerPolicy: "no-referrer" }}
+                      src={ChatDataProps.photoGroupChatUrl || DefaultAvatar.src}
+                    />
                     <ItemLeft>{data.content}</ItemLeft>
                   </Grid>
                 ) : (

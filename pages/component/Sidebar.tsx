@@ -51,13 +51,14 @@ const StyleSearchInput = styled.input`
 
 function Sidebar() {
   const { data: session, status } = useSession();
+  const userEmail = session && session.user ? session.user.email : null;
 
   useEffect(() => {
     if (status === "authenticated") {
       const user = {
-        name: session?.user?.name,
-        email: session?.user?.email,
-        avatar: session?.user?.image,
+        name: session && session.user ? session?.user?.name : null,
+        email: session && session.user ? session.user.email : null,
+        avatar: session && session.user ? session?.user?.image : null,
       };
 
       fetch(server + "/api/users/insertUser", {
@@ -68,12 +69,15 @@ function Sidebar() {
         body: JSON.stringify(user),
       });
     }
-  }, [status]);
+  }, [status, session]);
 
   return (
     <>
       <StyleHeader>
-        <Tooltip title={session?.user?.name as string} placement="right">
+        <Tooltip
+          title={session && session.user ? session?.user?.name : ("" as string)}
+          placement="right"
+        >
           <StyleAvatar
             src={session?.user?.image as string}
             imgProps={{ referrerPolicy: "no-referrer" }}

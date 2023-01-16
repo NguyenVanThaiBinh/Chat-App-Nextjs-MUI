@@ -13,40 +13,39 @@ import DefaultAvatar from "../../asset/group_avatar.png";
 
 function AlignItemsList(props: any) {
   const [groupData, setGroupData] = useState([]);
-  const { data: session, status } = useSession();
-
-  const handleClick = (id: any, memberData: any) => {
+  const { data: session, status } = useSession<any | null>();
+  const userEmail = session && session.user ? session.user.email : null;
+  const handleClick = (id: any, memberData: any, photoGroupChatUrl: any) => {
     const filteredMemberData = memberData.filter(
-      (member: { email: string }) => member.email != session?.user?.email
+      (member: { email: string }) => member.email != userEmail
     );
-    props.handleOnClick(id, filteredMemberData);
+    props.handleOnClick(id, filteredMemberData, photoGroupChatUrl);
   };
-
-  const setChatNameandPhotoChat = (data: any) => {
-    for (let i = 0; i < data.length; i++) {
-      // 2 people
-      if (data[i].member.length == 2) {
-        if (data[i].member[0].email == session?.user?.email) {
-          data[i].chat_name = data[i].member[1].nickname;
-          data[i].photoGroupChatUrl = data[i].member[1].photoUserUrl;
+  useEffect(() => {
+    const setChatNameandPhotoChat = (data: any) => {
+      for (let i = 0; i < data.length; i++) {
+        // 2 people
+        if (data[i].member.length == 2) {
+          if (data[i].member[0].email == userEmail) {
+            data[i].chat_name = data[i].member[1].nickname;
+            data[i].photoGroupChatUrl = data[i].member[1].photoUserUrl;
+          } else {
+            data[i].chat_name = data[i].member[0].nickname;
+            data[i].photoGroupChatUrl = data[i].member[0].photoUserUrl;
+          }
         } else {
-          data[i].chat_name = data[i].member[0].nickname;
-          data[i].photoGroupChatUrl = data[i].member[0].photoUserUrl;
-        }
-      } else {
-        // more 2 people
-        // default case
-        if (data[i].chat_name.length == 0) {
-          data[i].chat_name =
-            data[i].member[0].nickname + ", " + data[i].member[1].nickname;
+          // more 2 people
+          // default case
+          if (data[i].chat_name.length == 0) {
+            data[i].chat_name =
+              data[i].member[0].nickname + ", " + data[i].member[1].nickname;
+          }
         }
       }
-    }
-    setGroupData(data);
-  };
 
-  useEffect(() => {
-    fetch(server + `/api/group/${session?.user?.email}`)
+      setGroupData(data);
+    };
+    fetch(server + `/api/group/${userEmail}`)
       .then((response) => response.json())
       .then((data) => {
         // console.log(data);
@@ -54,7 +53,7 @@ function AlignItemsList(props: any) {
           setChatNameandPhotoChat(data);
         }
       });
-  }, [status]);
+  }, [status, session,userEmail]);
 
   return (
     <>
@@ -84,7 +83,13 @@ function AlignItemsList(props: any) {
           >
             <ListItem
               alignItems="flex-start"
-              onClick={() => handleClick(object.group_id, object.member)}
+              onClick={() =>
+                handleClick(
+                  object.group_id,
+                  object.member,
+                  object.photoGroupChatUrl
+                )
+              }
             >
               <ListItemAvatar>
                 <Avatar
