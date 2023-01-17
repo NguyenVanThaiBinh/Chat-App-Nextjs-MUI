@@ -3,8 +3,6 @@ import type { AppProps } from "next/app";
 import { SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
 
-
-
 function MyApp({
   Component,
   pageProps,
@@ -13,7 +11,7 @@ function MyApp({
 }>) {
   return (
     <SessionProvider session={pageProps.session}>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />Binh Hu
     </SessionProvider>
   );
 }
