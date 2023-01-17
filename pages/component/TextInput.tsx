@@ -13,7 +13,7 @@ const inputProps = {
   maxwidth: 430,
 };
 
-export const TextInput = ({ props }: { props: any }) => {
+  export default function  TextInput ({ props }: { props: any })  {
   const [text, setText] = useState("");
   useEffect(() => {
     setText("");

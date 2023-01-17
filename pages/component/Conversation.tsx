@@ -44,7 +44,7 @@ const ItemRight = styled(Paper)(({ theme }) => ({
   marginRight: 12,
 }));
 
-export const Conversation = ({ props: ChatDataProps }: { props: any }) => {
+export default function Conversation({ props: ChatDataProps }: { props: any }) {
   const { data: session } = useSession();
   const [chatData, setChatData] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
@@ -52,7 +52,7 @@ export const Conversation = ({ props: ChatDataProps }: { props: any }) => {
 
   useEffect(() => {
     setLoading(true);
-    fetch(server + `/api/chats/${ChatDataProps.groupId}`)
+    fetch(server + `/api/chats/${ChatDataProps?.groupId}`)
       .then((response) => response.json())
       .then((data) => {
         setChatData(data);
@@ -61,7 +61,7 @@ export const Conversation = ({ props: ChatDataProps }: { props: any }) => {
         scrollDownAfter1s();
       });
     setIsScroll(true);
-  }, [ChatDataProps.groupId]);
+  }, [ChatDataProps?.groupId]);
 
   //TODO: Waiting 1s to rending date then scroll down
 
@@ -82,7 +82,7 @@ export const Conversation = ({ props: ChatDataProps }: { props: any }) => {
 
       socket.on("connect", () => {
         console.log("socket connected");
-        socket.on(ChatDataProps.groupId, (msg: any) => {
+        socket.on(ChatDataProps?.groupId, (msg: any) => {
           setChatData((prev: any) => {
             const newJobs = [...prev, msg] as any;
             setIsScroll(false);
@@ -99,7 +99,7 @@ export const Conversation = ({ props: ChatDataProps }: { props: any }) => {
         socket.disconnect();
       };
     });
-  }, [ChatDataProps.groupId]);
+  }, [ChatDataProps?.groupId]);
 
   return (
     <StyleBox
@@ -159,4 +159,4 @@ export const Conversation = ({ props: ChatDataProps }: { props: any }) => {
       )}
     </StyleBox>
   );
-};
+}

@@ -1,8 +1,8 @@
 import React from "react";
-import { TextInput } from "./TextInput";
+import  TextInput  from "./TextInput";
 import { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
-import { Conversation } from "./Conversation";
+import  Conversation  from "./Conversation";
 import { server } from "../index";
 import { useSession } from "next-auth/react";
 const io = require("socket.io-client");
