@@ -5,14 +5,16 @@ export function middleware(request: NextRequest) {
   const url = request.nextUrl;
   const cookie_session = request.cookies.get("next-auth.session-token");
 
-  if (url.pathname === "/" && !cookie_session) {
-    url.pathname = "/login";
-    return NextResponse.redirect(url);
-  }
-  if (url.pathname === "/login" && cookie_session) {
-    url.pathname = "/";
-    return NextResponse.redirect(url);
-  }
+  // if (url.pathname === "/" && cookie_session == null) {
+  //   url.pathname = "/login";
+  //   console.log("AAA");
+  //   return NextResponse.redirect(url);
+  // }
+  // if (url.pathname === "/login" && cookie_session != null) {
+  //   url.pathname = "/";
+  //   console.log("BBB");
+  //   return NextResponse.redirect(url);
+  // }
 }
 export const config = {
   matcher: [
