@@ -7,7 +7,7 @@ const dev = process.env.NODE_ENV !== "production";
 
 export const server = dev
   ? "http://localhost:3000"
-  : "https://your_deployment.server.com";
+  : "https://chat-app-nextjs-mui-dnu4.vercel.app";
 
 const Home: NextPage = () => {
   return (
