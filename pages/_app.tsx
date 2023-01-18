@@ -11,7 +11,7 @@ function MyApp({
 }>) {
   return (
     <SessionProvider session={pageProps.session}>
-      <Component {...pageProps} />Binh Hu
+      <Component {...pageProps} />
     </SessionProvider>
   );
 }
