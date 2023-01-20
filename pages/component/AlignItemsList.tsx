@@ -45,7 +45,8 @@ function AlignItemsList(props: any) {
 
       setGroupData(data);
     };
-    fetch(server + `/api/group/${userEmail}`)
+    if(userEmail != null){
+      fetch(server + `/api/group/${userEmail}`)
       .then((response) => response.json())
       .then((data) => {
         // console.log(data);
@@ -53,6 +54,8 @@ function AlignItemsList(props: any) {
           setChatNameandPhotoChat(data);
         }
       });
+    }
+   
   }, [status, session,userEmail]);
 
   return (
