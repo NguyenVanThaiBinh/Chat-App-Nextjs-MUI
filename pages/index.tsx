@@ -3,11 +3,11 @@ import Head from "next/head";
 import Body from "./Body";
 import React from "react";
 
-const dev = process.env.NODE_ENV == "production";
 
-export const server = dev
-  ? "http://localhost:3000"
-  : "https://chat-app-nextjs-mui-dnu4.vercel.app";
+
+// export const server =  "http://localhost:3000"
+export const server =  "https://chat-app-nextjs-mui-dnu4.vercel.app"
+
 
 const Home: NextPage = () => {
   return (
