@@ -15,7 +15,7 @@ const StyleHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
+  padding: 0px;
   height: 80px;
   border-bottom: 1px solid whitesmoke;
   position: sticky;
