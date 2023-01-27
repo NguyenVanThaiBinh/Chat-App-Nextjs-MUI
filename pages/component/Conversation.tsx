@@ -10,7 +10,10 @@ import DefaultAvatar from "../../asset/group_avatar.png";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { server } from "../index";
-const io = require("socket.io-client");
+// const io = require("socket.io-client");
+const io = require("socket.io-client")("https://chat-app-nextjs-mui.vercel.app", {
+  rejectUnauthorized: false // WARN: please do not do this in production
+});
 
 const StyleBox = styledMe(Box)`
   height: 83vh;
