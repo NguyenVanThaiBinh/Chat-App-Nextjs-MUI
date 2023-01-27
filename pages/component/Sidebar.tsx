@@ -61,13 +61,13 @@ function Sidebar() {
         avatar: session && session.user ? session?.user?.image : null,
       };
 
-      // fetch(server + "/api/users/insertUser", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(user),
-      // });
+      fetch(server + "/api/users/insertUser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
     }
   }, [status, session]);
 
