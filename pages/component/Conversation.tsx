@@ -7,13 +7,13 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import React from "react";
 import DefaultAvatar from "../../asset/group_avatar.png";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { server } from "../index";
-// const io = require("socket.io-client");
-const io = require("socket.io-client")("https://chat-app-nextjs-mui.vercel.app", {
-  rejectUnauthorized: false // WARN: please do not do this in production
-});
+const io = require("socket.io-client");
+// const io = require("socket.io-client")("https://chat-app-nextjs-mui.vercel.app", {
+//   rejectUnauthorized: false // WARN: please do not do this in production
+// });
 
 const StyleBox = styledMe(Box)`
   height: 83vh;
@@ -52,19 +52,7 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
   const [chatData, setChatData] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [isScroll, setIsScroll] = useState(true);
-
-  useEffect(() => {
-    setLoading(true);
-    fetch(server + `/api/chats/${ChatDataProps?.groupId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setChatData(data);
-        console.log(data);
-        setLoading(false);
-        scrollDownAfter1s();
-      });
-    setIsScroll(true);
-  }, [ChatDataProps?.groupId]);
+  const listChatData = useRef([]);
 
   //TODO: Waiting 1s to rending date then scroll down
 
@@ -80,16 +68,31 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
   // TODO: Add socketio
 
   useEffect(() => {
+    setLoading(true);
+    fetch(server + `/api/chats/${ChatDataProps?.groupId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setChatData(data);
+        setLoading(false);
+        scrollDownAfter1s();
+      });
+    setIsScroll(true);
+
     fetch(server + "/api/socketio").finally(() => {
       const socket = io();
 
       socket.on("connect", () => {
-        console.log("socket connected");
-        socket.on(ChatDataProps?.groupId, (msg: any) => {
+        socket.on(ChatDataProps?.groupId, (chatData: never) => {
+          listChatData.current.push(chatData);
+          if (listChatData.current.length == 5) {
+            // listChatData.current.forEach((element) => insertChatToDB(element));
+            listChatData.current.length = 0;
+          }
+
           setChatData((prev: any) => {
-            const newJobs = [...prev, msg] as any;
+            const newChatData = [...prev, chatData] as any;
             setIsScroll(false);
-            return newJobs;
+            return newChatData;
           });
         });
       });
@@ -103,6 +106,21 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
       };
     });
   }, [ChatDataProps?.groupId]);
+
+  // TODO: insertChatToDB
+  async function insertChatToDB(saveChatData: any) {
+    try {
+      fetch(server + "/api/chats/insertChats", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(saveChatData),
+      });
+    } catch (error) {
+      console.warn("Insert chat fail!");
+    }
+  }
 
   return (
     <StyleBox

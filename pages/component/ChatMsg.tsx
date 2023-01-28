@@ -1,16 +1,16 @@
 import React from "react";
-import  TextInput  from "./TextInput";
+import TextInput from "./TextInput";
 import { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
-import  Conversation  from "./Conversation";
+import Conversation from "./Conversation";
 import { server } from "../index";
 import { useSession } from "next-auth/react";
 
-// const io = require("socket.io-client");
+const io = require("socket.io-client");
 
-const io = require("socket.io-client")("https://chat-app-nextjs-mui.vercel.app", {
-  rejectUnauthorized: false // WARN: please do not do this in production
-});
+// const io = require("socket.io-client")("https://chat-app-nextjs-mui.vercel.app", {
+//   rejectUnauthorized: false // WARN: please do not do this in production
+// });
 
 export default function ChatMsg({ props: groupData }: { props: any }) {
   const { data: session } = useSession();
@@ -21,20 +21,7 @@ export default function ChatMsg({ props: groupData }: { props: any }) {
     setChatDataProps(groupData);
   }, [groupData]);
 
-  async function insertChatToDB(saveChatData: any) {
-    try {
-      fetch(server + "/api/chats/insertChats", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(saveChatData),
-      });
-    } catch (error) {
-      console.warn("Insert chat fail!");
-    }
-  }
-
+  
   const handleChangDataTextInput = (chatsData: any) => {
     if (chatsData != null) {
       groupData.ChatData = chatsData;
@@ -46,11 +33,21 @@ export default function ChatMsg({ props: groupData }: { props: any }) {
       const socket = io();
 
       socket.on("connect", () => {
-        console.log("connected");
         socket.emit("on-chat", {
           content: chatsData,
           from: session?.user?.email,
           id_chat_group: groupData.groupId,
+          nickname: session?.user?.name,
+          to: [
+            {
+              email: groupData.memberData[0].email,
+              nickname: groupData.memberData[0].nickname,
+              isSaw: false,
+              seen_at: new Date(),
+            },
+          ],
+          send_at: new Date(),
+          type: "text",
         });
       });
 
@@ -59,24 +56,8 @@ export default function ChatMsg({ props: groupData }: { props: any }) {
       });
     });
 
-    const saveChatData = {
-      id_chat_group: groupData.groupId,
-      from: session?.user?.email,
-      nickname: session?.user?.name,
-      to: [
-        {
-          email: groupData.memberData[0].email,
-          nickname: groupData.memberData[0].nickname,
-          isSaw: false,
-          seen_at: new Date(),
-        },
-      ],
-      send_at: new Date(),
-      type: "text",
-      content: chatsData,
-    };
     // insertChatToDB(saveChatData);
-    // setChatData(saveChatData);
+
   };
 
   return (
