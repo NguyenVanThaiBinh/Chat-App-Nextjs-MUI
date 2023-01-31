@@ -21,7 +21,6 @@ export default function ChatMsg({ props: groupData }: { props: any }) {
     setChatDataProps(groupData);
   }, [groupData]);
 
-  
   const handleChangDataTextInput = (chatsData: any) => {
     if (chatsData != null) {
       groupData.ChatData = chatsData;
@@ -55,9 +54,6 @@ export default function ChatMsg({ props: groupData }: { props: any }) {
         console.log("disconnected");
       });
     });
-
-    // insertChatToDB(saveChatData);
-
   };
 
   return (

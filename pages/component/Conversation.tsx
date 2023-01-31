@@ -64,9 +64,7 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
       behavior: "smooth",
     });
   }
-
-  // TODO: Add socketio
-
+  // TODO: Add socketio and render data
   useEffect(() => {
     setLoading(true);
     fetch(server + `/api/chats/${ChatDataProps?.groupId}`)
@@ -78,33 +76,31 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
       });
     setIsScroll(true);
 
-    fetch(server + "/api/socketio").finally(() => {
-      const socket = io();
+    const socket = io();
+    socket.on("connect", () => {
+      socket.on(ChatDataProps?.groupId, (chatData: never) => {
+        listChatData.current.push(chatData);
+        console.log("re-rending..1");
+        if (listChatData.current.length == 5) {
+          // listChatData.current.forEach((element) => insertChatToDB(element));
+          listChatData.current.length = 0;
+        }
 
-      socket.on("connect", () => {
-        socket.on(ChatDataProps?.groupId, (chatData: never) => {
-          listChatData.current.push(chatData);
-          if (listChatData.current.length == 5) {
-            // listChatData.current.forEach((element) => insertChatToDB(element));
-            listChatData.current.length = 0;
-          }
-
-          setChatData((prev: any) => {
-            const newChatData = [...prev, chatData] as any;
-            setIsScroll(false);
-            return newChatData;
-          });
+        setChatData((prev: any) => {
+          const newChatData = [...prev, chatData] as any;
+          setIsScroll(false);
+          return newChatData;
         });
       });
-
-      socket.on("disconnect", () => {
-        console.log(" socket disconnected");
-      });
-
-      return () => {
-        socket.disconnect();
-      };
     });
+
+    socket.on("disconnect", () => {
+      console.log(" socket disconnected");
+    });
+
+    return () => {
+      socket.disconnect();
+    };
   }, [ChatDataProps?.groupId]);
 
   // TODO: insertChatToDB

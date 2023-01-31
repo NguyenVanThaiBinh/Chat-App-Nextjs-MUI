@@ -12,7 +12,7 @@ const ioHandler = (req: any, res: any) => {
       });
     });
   } else {
-    console.log("socket.io already running");
+    // console.log("socket.io already running");
   }
   res.end();
 };
