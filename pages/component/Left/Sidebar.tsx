@@ -8,7 +8,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import Typography from "@mui/material/Typography";
 import { useSession, signOut } from "next-auth/react";
 import styled from "styled-components";
-import { server } from "../index";
+import { server } from "../../index";
 import { useEffect, memo } from "react";
 
 const StyleHeader = styled.div`
@@ -49,28 +49,9 @@ const StyleSearchInput = styled.input`
   font-size: 15px;
 `;
 
-function Sidebar() {
-  const { data: session, status } = useSession();
-  const userEmail = session && session.user ? session.user.email : null;
-
-  useEffect(() => {
-    if (status === "authenticated") {
-      const user = {
-        name: session && session.user ? session?.user?.name : null,
-        email: session && session.user ? session.user.email : null,
-        avatar: session && session.user ? session?.user?.image : null,
-      };
-
-      // fetch(server + "/api/users/insertUser", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(user),
-      // });
-    }
-  }, [status, session]);
-
+function Sidebar(props: any) {
+  const { data: session } = useSession();
+  const handleClickFromSidebar = () => props.handleOnClick(null);
   return (
     <>
       <StyleHeader>
@@ -103,7 +84,9 @@ function Sidebar() {
         <SearchIcon />
         <StyleSearchInput placeholder="Search in conversations" />
       </StyleSearch>
-      <StyleSidebarButton>Start a new conversation</StyleSidebarButton>
+      <StyleSidebarButton onClick={handleClickFromSidebar}>
+        Start a new conversation
+      </StyleSidebarButton>
     </>
   );
 }

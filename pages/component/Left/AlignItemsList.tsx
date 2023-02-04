@@ -8,8 +8,8 @@ import Avatar from "@mui/material/Avatar";
 import Divider from "@mui/material/Divider";
 import { useEffect, useState, memo } from "react";
 import { useSession } from "next-auth/react";
-import { server } from "../index";
-import DefaultAvatar from "../../asset/group_avatar.png";
+import { server } from "../../index";
+import DefaultAvatar from "../../../asset/group_avatar.png";
 
 function AlignItemsList(props: any) {
   const [groupData, setGroupData] = useState([]);
@@ -45,18 +45,17 @@ function AlignItemsList(props: any) {
 
       setGroupData(data);
     };
-    if(userEmail != null){
+    if (userEmail != null) {
       fetch(server + `/api/group/${userEmail}`)
-      .then((response) => response.json())
-      .then((data) => {
-        // console.log(data);
-        if (data.length > 0) {
-          setChatNameandPhotoChat(data);
-        }
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          // console.log(data);
+          if (data.length > 0) {
+            setChatNameandPhotoChat(data);
+          }
+        });
     }
-   
-  }, [status, session,userEmail]);
+  }, [status, session, userEmail]);
 
   return (
     <>

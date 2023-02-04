@@ -6,11 +6,11 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import React from "react";
-import DefaultAvatar from "../../asset/group_avatar.png";
+import DefaultAvatar from "../../../asset/group_avatar.png";
 import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
-import { server } from "../index";
-import { ChatObject } from "../../Object/ChatObject";
+import { server } from "../../index";
+import { ChatObject } from "../../../Object/ChatObject";
 
 const io = require("socket.io-client");
 // const io = require("socket.io-client")("https://chat-app-nextjs-mui.vercel.app", {
