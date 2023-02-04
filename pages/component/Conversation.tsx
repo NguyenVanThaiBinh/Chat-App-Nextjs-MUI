@@ -10,6 +10,8 @@ import DefaultAvatar from "../../asset/group_avatar.png";
 import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { server } from "../index";
+import { ChatObject } from "../../Object/ChatObject";
+
 const io = require("socket.io-client");
 // const io = require("socket.io-client")("https://chat-app-nextjs-mui.vercel.app", {
 //   rejectUnauthorized: false // WARN: please do not do this in production
@@ -49,10 +51,10 @@ const ItemRight = styled(Paper)(({ theme }) => ({
 
 export default function Conversation({ props: ChatDataProps }: { props: any }) {
   const { data: session } = useSession();
-  const [chatData, setChatData] = useState<any[]>([]);
+  const [chatData, setChatData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isScroll, setIsScroll] = useState(true);
-  const listChatData = useRef([]);
+  const listChatData = useRef<ChatObject[]>([]);
 
   //TODO: Waiting 1s to rending date then scroll down
 
@@ -64,8 +66,26 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
       behavior: "smooth",
     });
   }
+  // TODO: Auto save chat after 15s
+  useEffect(() => {
+    let intervalForSaveChat = setInterval(() => {
+      if (listChatData.current.length > 0) {
+        insertChatToDB(listChatData.current);
+        listChatData.current.length = 0;
+      }
+    }, 15 * 1000);
+    return () => {
+      clearInterval(intervalForSaveChat);
+    };
+  }, []);
+
   // TODO: Add socketio and render data
   useEffect(() => {
+    //save chat before change conversation
+    if (listChatData.current.length > 0) {
+      insertChatToDB(listChatData.current);
+      listChatData.current.length = 0;
+    }
     setLoading(true);
     fetch(server + `/api/chats/${ChatDataProps?.groupId}`)
       .then((response) => response.json())
@@ -78,12 +98,9 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
 
     const socket = io();
     socket.on("connect", () => {
-      socket.on(ChatDataProps?.groupId, (chatData: never) => {
-        listChatData.current.push(chatData);
-        console.log("re-rending..1");
-        if (listChatData.current.length == 5) {
-          // listChatData.current.forEach((element) => insertChatToDB(element));
-          listChatData.current.length = 0;
+      socket.on(ChatDataProps?.groupId, (chatData: ChatObject) => {
+        if (chatData.from == session?.user?.email) {
+          listChatData.current.push(chatData);
         }
 
         setChatData((prev: any) => {

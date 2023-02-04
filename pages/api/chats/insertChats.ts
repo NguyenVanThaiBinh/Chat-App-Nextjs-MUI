@@ -5,8 +5,12 @@ import { collections, connectToDatabase } from "../../../middleware/database";
 const handler = nextConnect<NextApiRequest, NextApiResponse>();
 handler.post(async (req, res) => {
   try {
-    await connectToDatabase();
-    await collections.chat?.insertOne(req.body);
+    if (req.body != null) {
+      await connectToDatabase();
+      await collections.chat?.insertMany(req.body);
+    } else {
+      console.warn("Nothing to insert!");
+    }
   } catch (error: any) {
     res.send(error.message);
   }
