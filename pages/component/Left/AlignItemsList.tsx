@@ -10,18 +10,40 @@ import { useEffect, useState, memo } from "react";
 import { useSession } from "next-auth/react";
 import { server } from "../../index";
 import DefaultAvatar from "../../../asset/group_avatar.png";
+import GroupChatObject from "../../../Object/GroupChatObject";
+import ChatObject from "../../../Object/ChatObject";
+const io = require("socket.io-client");
 
 function AlignItemsList(props: any) {
-  const [groupData, setGroupData] = useState([]);
+  const [groupChatData, setChatGroupData] = useState<GroupChatObject[]>([]);
+  const [lastChatContent, setLastChatContent] = useState();
+
   const { data: session, status } = useSession<any | null>();
   const userEmail = session && session.user ? session.user.email : null;
-  const handleClick = (id: any, memberData: any, photoGroupChatUrl: any) => {
+
+  const handleClick = (
+    group_id: any,
+    memberData: any,
+    photoGroupChatUrl: any
+  ) => {
     const filteredMemberData = memberData.filter(
       (member: { email: string }) => member.email != userEmail
     );
-    props.handleOnClick(id, filteredMemberData, photoGroupChatUrl);
+    props.handleOnClick(group_id, filteredMemberData, photoGroupChatUrl);
   };
+
   useEffect(() => {
+    if (userEmail != null) {
+      fetch(server + `/api/group/${userEmail}`)
+        .then((response) => response.json())
+        .then((data) => {
+          // console.log(data);
+          if (data.length > 0) {
+            setChatNameandPhotoChat(data);
+          }
+        });
+    }
+
     const setChatNameandPhotoChat = (data: any) => {
       for (let i = 0; i < data.length; i++) {
         // 2 people
@@ -43,25 +65,17 @@ function AlignItemsList(props: any) {
         }
       }
 
-      setGroupData(data);
+      setChatGroupData(data);
     };
-    if (userEmail != null) {
-      fetch(server + `/api/group/${userEmail}`)
-        .then((response) => response.json())
-        .then((data) => {
-          // console.log(data);
-          if (data.length > 0) {
-            setChatNameandPhotoChat(data);
-          }
-        });
-    }
   }, [status, session, userEmail]);
+
+  // TODO: use Socket to get last message
 
   return (
     <>
       {" "}
       <Divider />
-      {groupData.map((object: any) => (
+      {groupChatData.map((object: any) => (
         <List
           key={object._id}
           sx={{

@@ -12,7 +12,7 @@ import DefaultAvatar from "../../../asset/group_avatar.png";
 import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { server } from "../../index";
-import { ChatObject } from "../../../Object/ChatObject";
+import ChatObject from "../../../Object/ChatObject";
 
 const StyleBox = styledMe(Box)`
   height: 95vh;

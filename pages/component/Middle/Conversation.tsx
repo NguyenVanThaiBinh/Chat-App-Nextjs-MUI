@@ -10,7 +10,7 @@ import DefaultAvatar from "../../../asset/group_avatar.png";
 import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { server } from "../../index";
-import { ChatObject } from "../../../Object/ChatObject";
+import ChatObject from "../../../Object/ChatObject";
 
 const io = require("socket.io-client");
 // const io = require("socket.io-client")("https://chat-app-nextjs-mui.vercel.app", {
@@ -66,11 +66,17 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
       behavior: "smooth",
     });
   }
-  // TODO: Auto save chat after 15s
+  // TODO: Auto save chat  and update last content after 15s
   useEffect(() => {
     let intervalForSaveChat = setInterval(() => {
       if (listChatData.current.length > 0) {
         insertChatToDB(listChatData.current);
+
+        const last_length = listChatData.current.length - 1;
+        const group_id = listChatData.current[last_length].id_chat_group;
+        const content = listChatData.current[last_length].content;
+        updateLastChatContent(group_id, content);
+
         listChatData.current.length = 0;
       }
     }, 15 * 1000);
@@ -120,8 +126,9 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
     };
   }, [ChatDataProps?.groupId]);
 
-  // TODO: insertChatToDB
-  async function insertChatToDB(saveChatData: any) {
+  // TODO: insertChatToDB and update last chat content
+  function insertChatToDB(saveChatData: any) {
+    console.log(saveChatData);
     try {
       fetch(server + "/api/chats/insertChats", {
         method: "POST",
@@ -132,6 +139,20 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
       });
     } catch (error) {
       console.warn("Insert chat fail!");
+    }
+  }
+  function updateLastChatContent(group_id: string, last_chat_content: string) {
+    const changeData = { group_id, last_chat_content };
+    try {
+      fetch(server + "/api/group/updateLastContent", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(changeData),
+      });
+    } catch (error) {
+      console.warn("update Last Chat Content fail!");
     }
   }
 

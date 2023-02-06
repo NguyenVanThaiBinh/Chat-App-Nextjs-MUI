@@ -1,5 +1,4 @@
-
-export class ChatObject {
+export default class ChatObject {
   id_chat_group: string;
   from: string;
   nickname: string;
@@ -7,6 +6,7 @@ export class ChatObject {
   send_at: Date;
   type: string;
   content: string;
+
   constructor(
     id_chat_group: string,
     from: string,
