@@ -45,6 +45,14 @@ db.Users.insertMany([
 
 db.Users.find({_id: ObjectId('635cf0938aec6c76a1b70d5c')});
 
+db.Users.find({
+    "$or": [{ email: { $regex: /n/ } }, {
+        nickname: { $regex: /n/ }
+    }]
+});
+
+
+
 db.Users.ensureIndex({email: 1})
          
                       //Group

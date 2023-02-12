@@ -139,7 +139,7 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
 
     const changeData = { group_id, last_chat_content };
     try {
-      fetch(server + "/api/group/updateLastContent", {
+      fetch(server + "/api/groups/updateLastContent", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

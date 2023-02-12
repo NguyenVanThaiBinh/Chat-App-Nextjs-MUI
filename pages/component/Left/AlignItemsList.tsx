@@ -41,7 +41,7 @@ function AlignItemsList(this: any, props: any) {
 
   useEffect(() => {
     if (userEmail != null) {
-      fetch(server + `/api/group/${userEmail}`)
+      fetch(server + `/api/groups/${userEmail}`)
         .then((response) => response.json())
         .then((data) => {
           // console.log(data);
