@@ -13,7 +13,6 @@ handler.get(async (req, res) => {
       .limit(1)
       .toArray();
     res.send(message);
-    console.log(message);
   } catch (error: any) {
     res.send(error.message);
   }

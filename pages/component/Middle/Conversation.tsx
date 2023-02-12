@@ -70,13 +70,7 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
   useEffect(() => {
     let intervalForSaveChat = setInterval(() => {
       if (listChatData.current.length > 0) {
-        insertChatToDB(listChatData.current);
-
-        const last_length = listChatData.current.length - 1;
-        const group_id = listChatData.current[last_length].id_chat_group;
-        const content = listChatData.current[last_length].content;
-        updateLastChatContent(group_id, content);
-
+        insertChatAndUpdateLastContentToDB(listChatData.current);
         listChatData.current.length = 0;
       }
     }, 15 * 1000);
@@ -85,23 +79,8 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
     };
   }, []);
 
-  // TODO: Add socketio and render data
   useEffect(() => {
-    //save chat before change conversation
-    if (listChatData.current.length > 0) {
-      insertChatToDB(listChatData.current);
-      listChatData.current.length = 0;
-    }
-    setLoading(true);
-    fetch(server + `/api/chats/${ChatDataProps?.groupId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setChatData(data);
-        setLoading(false);
-        scrollDownAfter1s();
-      });
-    setIsScroll(true);
-
+    // TODO: Add socketio and render data
     const socket = io();
     socket.on("connect", () => {
       socket.on(ChatDataProps?.groupId, (chatData: ChatObject) => {
@@ -121,14 +100,31 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
       console.log(" socket disconnected");
     });
 
+    //save chat  and update last content before change conversation
+    if (listChatData.current.length > 0) {
+      insertChatAndUpdateLastContentToDB(listChatData.current);
+      listChatData.current.length = 0;
+    }
+    setLoading(true);
+    fetch(server + `/api/chats/${ChatDataProps?.groupId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setChatData(data);
+        setLoading(false);
+        scrollDownAfter1s();
+      });
+    setIsScroll(true);
+
     return () => {
       socket.disconnect();
     };
   }, [ChatDataProps?.groupId]);
 
   // TODO: insertChatToDB and update last chat content
-  function insertChatToDB(saveChatData: any) {
-    console.log(saveChatData);
+  function insertChatAndUpdateLastContentToDB(saveChatData: any) {
+    const last_length = saveChatData.length - 1;
+    const group_id = saveChatData[last_length].id_chat_group;
+    const last_chat_content = saveChatData[last_length].content;
     try {
       fetch(server + "/api/chats/insertChats", {
         method: "POST",
@@ -140,8 +136,7 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
     } catch (error) {
       console.warn("Insert chat fail!");
     }
-  }
-  function updateLastChatContent(group_id: string, last_chat_content: string) {
+
     const changeData = { group_id, last_chat_content };
     try {
       fetch(server + "/api/group/updateLastContent", {

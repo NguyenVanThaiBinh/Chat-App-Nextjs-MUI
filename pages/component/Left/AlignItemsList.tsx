@@ -6,7 +6,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Divider from "@mui/material/Divider";
-import { useEffect, useState, memo } from "react";
+import { useEffect, useState, memo, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { server } from "../../index";
 import DefaultAvatar from "../../../asset/group_avatar.png";
@@ -14,9 +14,13 @@ import GroupChatObject from "../../../Object/GroupChatObject";
 import ChatObject from "../../../Object/ChatObject";
 const io = require("socket.io-client");
 
-function AlignItemsList(props: any) {
+function AlignItemsList(this: any, props: any) {
   const [groupChatData, setChatGroupData] = useState<GroupChatObject[]>([]);
   const [lastChatContent, setLastChatContent] = useState();
+  const [backgroundColor, setBackgroundColor] = useState(
+    "rgb(25 127 227 / 23%)"
+  );
+  let preGroupId = useRef(-1);
 
   const { data: session, status } = useSession<any | null>();
   const userEmail = session && session.user ? session.user.email : null;
@@ -26,6 +30,9 @@ function AlignItemsList(props: any) {
     memberData: any,
     photoGroupChatUrl: any
   ) => {
+    preGroupId.current = group_id;
+    console.log(preGroupId.current);
+    setBackgroundColor("rgb(25 127 227 / 23%)");
     const filteredMemberData = memberData.filter(
       (member: { email: string }) => member.email != userEmail
     );
@@ -69,14 +76,13 @@ function AlignItemsList(props: any) {
     };
   }, [status, session, userEmail]);
 
-  // TODO: use Socket to get last message
-
   return (
     <>
       {" "}
       <Divider />
       {groupChatData.map((object: any) => (
         <List
+          id={object._id}
           key={object._id}
           sx={{
             width: "100%",
@@ -95,6 +101,8 @@ function AlignItemsList(props: any) {
                 bgcolor: "rgba(25, 118, 210, 0.08)",
               },
               color: "#1976d2",
+              bgcolor:
+                object.group_id == preGroupId.current ? backgroundColor : "",
             }}
           >
             <ListItem
