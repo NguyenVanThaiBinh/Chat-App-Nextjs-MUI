@@ -11,12 +11,11 @@ import { useSession } from "next-auth/react";
 import { server } from "../../index";
 import DefaultAvatar from "../../../asset/group_avatar.png";
 import GroupChatObject from "../../../Object/GroupChatObject";
-import ChatObject from "../../../Object/ChatObject";
+
 const io = require("socket.io-client");
 
 function AlignItemsList(this: any, props: any) {
   const [groupChatData, setChatGroupData] = useState<GroupChatObject[]>([]);
-  const [lastChatContent, setLastChatContent] = useState();
   const [backgroundColor, setBackgroundColor] = useState(
     "rgb(25 127 227 / 23%)"
   );

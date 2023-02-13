@@ -5,15 +5,16 @@ import { collections, connectToDatabase } from "../../../middleware/database";
 const handler = nextConnect<NextApiRequest, NextApiResponse>();
 
 handler.get(async (req, res, next) => {
-  console.log("AAA");
+  const searchKey = req.query.searchKey;
+  console.log("API: " + searchKey);
   try {
     await connectToDatabase();
     const userList = await collections
       .user!.find({
         $or: [
-          { email: { $regex: /n/ } },
+          { email: { $regex: searchKey, $options: "i" } },
           {
-            nickname: { $regex: /n/ },
+            nickname: { $regex: searchKey, $options: "i" },
           },
         ],
       })
