@@ -35,7 +35,7 @@ const StyleBox2 = styledMe(Box)`
   padding-left: 16px;
 
 `;
-export default function CreateConversation() {
+export default function CreateConversation(props: any) {
   const [searchData, setSearchData] = useState([]);
   const [loading, setLoading] = useState(-1);
   const { data: session, status } = useSession<any | null>();
@@ -48,7 +48,6 @@ export default function CreateConversation() {
       fetch(server + `/api/users/findUser?searchKey=${nextValue}`)
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
           if (data.length > 0) {
             const filteredData = data.filter(
               (group: any) => group.email != userEmail
@@ -90,11 +89,19 @@ export default function CreateConversation() {
       ],
       last_chat_content: "",
       photoGroupChatUrl: "",
-      validateGroup: [
-        { mixName1: userEmail + newEmail },
-        { mixName2: newEmail + userEmail },
-      ],
+      validateGroup: {
+        mixName1: userEmail + newEmail,
+        mixName2: newEmail + userEmail,
+      },
     };
+
+    const memberData = [
+      {
+        email: newEmail,
+        nickname: newNickname,
+        photoUserUrl: newUrl,
+      },
+    ];
     try {
       fetch(server + "/api/groups/insertGroup", {
         method: "POST",
@@ -102,7 +109,12 @@ export default function CreateConversation() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(groupData),
-      });
+      })
+        .then((response) => response.json())
+        .then((new_group_id) => {
+          // console.log("AAA: " + new_group_id);
+          props.handleDoubleClick(new_group_id, memberData, newUrl);
+        });
     } catch (error) {
       console.warn("Insert group fail!");
     }
@@ -153,6 +165,7 @@ export default function CreateConversation() {
                     borderStyle: "groove",
                     borderWidth: "0.05px",
                   }}
+                  key={object._id}
                 >
                   <List
                     id={object._id}

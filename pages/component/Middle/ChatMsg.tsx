@@ -16,7 +16,6 @@ export default function ChatMsg({ props: groupData }: { props: any }) {
   const { data: session } = useSession();
 
   const [ChatDataProps, setChatDataProps] = useState(groupData);
-
   useEffect(() => {
     setChatDataProps(groupData);
   }, [groupData]);
@@ -27,7 +26,6 @@ export default function ChatMsg({ props: groupData }: { props: any }) {
       setChatDataProps(groupData);
     }
     // TODO: Add socketio
-
     fetch(server + "/api/socketio").finally(() => {
       const socket = io();
 

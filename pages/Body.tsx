@@ -50,18 +50,21 @@ export default function Body() {
       case 1:
         return <ChatMsg props={groupData} />;
       case 2:
-        return <CreateConversation />;
+        return (
+          <CreateConversation handleDoubleClick={handleOnClickFromChild} />
+        );
       default:
         return <Home />;
     }
   };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid sx={{ paddingLeft: 3, paddingRight: 3 }} container spacing={2}>
         <Grid item xs={6} md={3}>
           <SidebarContainer>
             <Sidebar handleOnClick={handleOnClickFromChild} />
-            <AlignItemsList handleOnClick={handleOnClickFromChild} />
+            <AlignItemsList handleOnClick={handleOnClickFromChild} re_render={mountComponentIndex} />
           </SidebarContainer>
         </Grid>
         <Grid item xs={6} md={6.5}>

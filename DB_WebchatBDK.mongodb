@@ -171,6 +171,21 @@ db.Users.ensureIndex({email: 1})
                       //Group
 db.Chat_Group.drop()   
 
+db.Chat_Group.find(
+     
+        {
+          "validateGroup.mixName1": "nguyenvanthaibinh2210@gmail.comoh0h_sory_2210@yahoo.com.vn" }
+        
+      
+    );
+  db.Chat_Group.find({
+      $or: [
+        {"validateGroup.mixName1":  "binh@gmail.comnguyenvanthaibinh2210@gmail.com" } ,
+        {"validateGroup.mixName2":  "nguyenvanthaibinh2210@gmail.comoh0h_sory_2210@yahoo.com.vn" },
+      ],
+    });
+
+
 db.Chat_Group.insertMany([{
   group_id:"",
   chat_name: "", 

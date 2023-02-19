@@ -5,7 +5,17 @@ import { server } from "../../index";
 
 const handler = nextConnect<NextApiRequest, NextApiResponse>();
 handler.post(async (req, res) => {
+  let isRegisteredUser = false;
   const groupData = req.body;
+  await fetch(
+    `${server}/api/groups/isRegisteredGroup?mixName1=${groupData.validateGroup.mixName1}`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.result == true) isRegisteredUser = true;
+    });
+  if (isRegisteredUser) return;
+
   try {
     // insert and set group_id by _id
     await connectToDatabase();
@@ -14,6 +24,7 @@ handler.post(async (req, res) => {
       { _id: groupChat?.insertedId },
       { $set: { group_id: groupChat?.insertedId.toString() } }
     );
+    res.send(groupChat?.insertedId);
   } catch (error: any) {
     res.send(error.message);
   }

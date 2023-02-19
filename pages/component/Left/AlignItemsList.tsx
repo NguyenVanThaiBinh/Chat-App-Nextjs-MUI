@@ -14,7 +14,7 @@ import GroupChatObject from "../../../Object/GroupChatObject";
 
 const io = require("socket.io-client");
 
-function AlignItemsList(this: any, props: any) {
+function AlignItemsList(props: any) {
   const [groupChatData, setChatGroupData] = useState<GroupChatObject[]>([]);
   const [backgroundColor, setBackgroundColor] = useState(
     "rgb(25 127 227 / 23%)"
@@ -23,14 +23,12 @@ function AlignItemsList(this: any, props: any) {
 
   const { data: session, status } = useSession<any | null>();
   const userEmail = session && session.user ? session.user.email : null;
-
   const handleClick = (
     group_id: any,
     memberData: any,
     photoGroupChatUrl: any
   ) => {
     preGroupId.current = group_id;
-    console.log(preGroupId.current);
     setBackgroundColor("rgb(25 127 227 / 23%)");
     const filteredMemberData = memberData.filter(
       (member: { email: string }) => member.email != userEmail
@@ -73,7 +71,7 @@ function AlignItemsList(this: any, props: any) {
 
       setChatGroupData(data);
     };
-  }, [status, session, userEmail]);
+  }, [status, session, userEmail,props.re_render]);
 
   return (
     <>
