@@ -1,19 +1,19 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
 import { collections, connectToDatabase } from "../../../middleware/database";
+import { server } from "../../index";
 
 const handler = nextConnect<NextApiRequest, NextApiResponse>();
 handler.post(async (req, res) => {
+  const groupData = req.body;
   try {
-    if (req.body != null) {
-      await connectToDatabase();
-      await collections.chatgroup?.updateOne(
-        { group_id: req.body.group_id.toString() },
-        { $set: { last_chat_content: req.body.last_chat_content.toString() } }
-      );
-    } else {
-      console.warn("Nothing to update!");
-    }
+    // insert and set group_id by _id
+    await connectToDatabase();
+    const groupChat = await collections.chatgroup?.insertOne(groupData);
+    await collections.chatgroup?.updateOne(
+      { _id: groupChat?.insertedId },
+      { $set: { group_id: groupChat?.insertedId.toString() } }
+    );
   } catch (error: any) {
     res.send(error.message);
   }

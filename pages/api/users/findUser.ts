@@ -6,7 +6,6 @@ const handler = nextConnect<NextApiRequest, NextApiResponse>();
 
 handler.get(async (req, res, next) => {
   const searchKey = req.query.searchKey;
-  console.log("API: " + searchKey);
   try {
     await connectToDatabase();
     const userList = await collections

@@ -172,7 +172,7 @@ db.Users.ensureIndex({email: 1})
 db.Chat_Group.drop()   
 
 db.Chat_Group.insertMany([{
-  group_id:"1",
+  group_id:"",
   chat_name: "", 
   member: [ 
     { email: "oh0h_sory_2210@yahoo.com.vn",

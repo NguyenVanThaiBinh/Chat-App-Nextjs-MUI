@@ -1,6 +1,7 @@
          1.Đối tượng hoá các object trong dự án
          2.Hoàn thiện chức năng chát
 3.Chức năng tìm bạn=> 1 lộ trình chat cơ bản
+3.1 Fix Conversation when initial
 4.Add responsive for Iphone
 5.Security for API by JWT or anything else.
 6.Don't use SocketIO => change to something else
