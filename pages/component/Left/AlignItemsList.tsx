@@ -16,11 +16,9 @@ const io = require("socket.io-client");
 
 function AlignItemsList(props: any) {
   const [groupChatData, setChatGroupData] = useState<GroupChatObject[]>([]);
-  const [backgroundColor, setBackgroundColor] = useState(
-    "rgb(25 127 227 / 23%)"
-  );
-  let preGroupId = useRef(-1);
+  const [backgroundColor, setBackgroundColor] = useState("");
 
+  let preGroupId = useRef();
   const { data: session, status } = useSession<any | null>();
   const userEmail = session && session.user ? session.user.email : null;
   const handleClick = (
@@ -29,6 +27,7 @@ function AlignItemsList(props: any) {
     photoGroupChatUrl: any
   ) => {
     preGroupId.current = group_id;
+    console.log("pre: " + preGroupId.current);
     setBackgroundColor("rgb(25 127 227 / 23%)");
     const filteredMemberData = memberData.filter(
       (member: { email: string }) => member.email != userEmail
@@ -71,7 +70,7 @@ function AlignItemsList(props: any) {
 
       setChatGroupData(data);
     };
-  }, [status, session, userEmail,props.re_render]);
+  }, [status, session, userEmail]);
 
   return (
     <>
@@ -94,14 +93,13 @@ function AlignItemsList(props: any) {
               ":hover": {
                 bgcolor: "rgba(25, 118, 210, 0.08)",
               },
-              ":focus": {
-                bgcolor: "rgba(25, 118, 210, 0.08)",
-              },
+
               color: "#1976d2",
               bgcolor:
                 object.group_id == preGroupId.current ? backgroundColor : "",
             }}
           >
+            {object.group_id}
             <ListItem
               alignItems="flex-start"
               onClick={() =>

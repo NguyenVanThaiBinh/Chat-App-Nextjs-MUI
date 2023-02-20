@@ -7,7 +7,7 @@ import React from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 const SidebarContainer = styled(Grid)`
   height: 100vh;
@@ -23,6 +23,7 @@ export default function Body() {
   // 2 for Create new Conversation
   const [mountComponentIndex, setMountComponent] = useState(0);
   const [groupData, setGroupData] = useState({});
+
   const handleOnClickFromChild = (
     id: any,
     memberData: any,
@@ -64,7 +65,7 @@ export default function Body() {
         <Grid item xs={6} md={3}>
           <SidebarContainer>
             <Sidebar handleOnClick={handleOnClickFromChild} />
-            <AlignItemsList handleOnClick={handleOnClickFromChild} re_render={mountComponentIndex} />
+            <AlignItemsList handleOnClick={handleOnClickFromChild} />
           </SidebarContainer>
         </Grid>
         <Grid item xs={6} md={6.5}>
