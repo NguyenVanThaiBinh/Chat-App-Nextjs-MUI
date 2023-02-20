@@ -70,7 +70,7 @@ function AlignItemsList(props: any) {
 
       setChatGroupData(data);
     };
-  }, [status, session, userEmail]);
+  }, [status, session, userEmail, props.re_render]);
 
   return (
     <>
@@ -99,7 +99,6 @@ function AlignItemsList(props: any) {
                 object.group_id == preGroupId.current ? backgroundColor : "",
             }}
           >
-            {object.group_id}
             <ListItem
               alignItems="flex-start"
               onClick={() =>

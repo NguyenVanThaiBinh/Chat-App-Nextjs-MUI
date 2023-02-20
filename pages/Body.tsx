@@ -23,12 +23,13 @@ export default function Body() {
   // 2 for Create new Conversation
   const [mountComponentIndex, setMountComponent] = useState(0);
   const [groupData, setGroupData] = useState({});
-
+  let GroupId = useRef("");
   const handleOnClickFromChild = (
     id: any,
     memberData: any,
     photoGroupChatUrl: any
   ) => {
+    GroupId.current = id;
     // using for middle component ChatMsg
     if (id != null) {
       const data = {
@@ -65,7 +66,10 @@ export default function Body() {
         <Grid item xs={6} md={3}>
           <SidebarContainer>
             <Sidebar handleOnClick={handleOnClickFromChild} />
-            <AlignItemsList handleOnClick={handleOnClickFromChild} />
+            <AlignItemsList
+              handleOnClick={handleOnClickFromChild}
+              re_render={GroupId.current}
+            />
           </SidebarContainer>
         </Grid>
         <Grid item xs={6} md={6.5}>
