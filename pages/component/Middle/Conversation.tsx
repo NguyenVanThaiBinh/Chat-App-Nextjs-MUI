@@ -12,13 +12,13 @@ import { useSession } from "next-auth/react";
 import { server } from "../../index";
 import ChatObject from "../../../Object/ChatObject";
 
-// const io = require("socket.io-client");
-const io = require("socket.io-client")(
-  "https://chat-app-binh-hu.herokuapp.com",
-  {
-    rejectUnauthorized: false, // WARN: please do not do this in production
-  }
-);
+const io = require("socket.io-client");
+// const io = require("socket.io-client")(
+//   "https://chat-app-binh-hu.herokuapp.com:50675",
+//   {
+//     rejectUnauthorized: false, // WARN: please do not do this in production
+//   }
+// );
 
 const StyleBox = styledMe(Box)`
   height: 83vh;
@@ -85,23 +85,23 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
   useEffect(() => {
     // TODO: Add socketio and render data
     const socket = io();
-      socket.on("connect", () => {
-        socket.on(ChatDataProps?.groupId, (chatData: ChatObject) => {
-          if (chatData.from == session?.user?.email) {
-            listChatData.current.push(chatData);
-          }
-          setChatData((prev: any) => {
-            const newChatData = [...prev, chatData] as any;
-            setIsScroll(false);
-            return newChatData;
-          });
+    socket.on("connect", () => {
+      socket.on(ChatDataProps?.groupId, (chatData: ChatObject) => {
+        if (chatData.from == session?.user?.email) {
+          listChatData.current.push(chatData);
+        }
+        setChatData((prev: any) => {
+          const newChatData = [...prev, chatData] as any;
+          setIsScroll(false);
+          return newChatData;
         });
       });
+    });
 
-      socket.on("disconnect", () => {
-        console.log(" socket disconnected");
-      });
-  
+    socket.on("disconnect", () => {
+      console.log(" socket disconnected");
+    });
+
     //save chat  and update last content before change conversation
     if (listChatData.current.length > 0) {
       insertChatAndUpdateLastContentToDB(listChatData.current);
