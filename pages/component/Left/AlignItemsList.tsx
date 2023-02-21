@@ -27,7 +27,6 @@ function AlignItemsList(props: any) {
     photoGroupChatUrl: any
   ) => {
     preGroupId.current = group_id;
-    console.log("pre: " + preGroupId.current);
     setBackgroundColor("rgb(25 127 227 / 23%)");
     const filteredMemberData = memberData.filter(
       (member: { email: string }) => member.email != userEmail
@@ -46,6 +45,9 @@ function AlignItemsList(props: any) {
           }
         });
     }
+
+    // TODO: Run Socket sever here
+    fetch(server + "/api/socketio").finally(() => {});
 
     const setChatNameandPhotoChat = (data: any) => {
       for (let i = 0; i < data.length; i++) {

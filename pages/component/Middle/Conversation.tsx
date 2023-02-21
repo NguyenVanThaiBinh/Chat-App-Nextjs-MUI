@@ -82,24 +82,23 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
   useEffect(() => {
     // TODO: Add socketio and render data
     const socket = io();
-    socket.on("connect", () => {
-      socket.on(ChatDataProps?.groupId, (chatData: ChatObject) => {
-        if (chatData.from == session?.user?.email) {
-          listChatData.current.push(chatData);
-        }
-
-        setChatData((prev: any) => {
-          const newChatData = [...prev, chatData] as any;
-          setIsScroll(false);
-          return newChatData;
+      socket.on("connect", () => {
+        socket.on(ChatDataProps?.groupId, (chatData: ChatObject) => {
+          if (chatData.from == session?.user?.email) {
+            listChatData.current.push(chatData);
+          }
+          setChatData((prev: any) => {
+            const newChatData = [...prev, chatData] as any;
+            setIsScroll(false);
+            return newChatData;
+          });
         });
       });
-    });
 
-    socket.on("disconnect", () => {
-      console.log(" socket disconnected");
-    });
-
+      socket.on("disconnect", () => {
+        console.log(" socket disconnected");
+      });
+  
     //save chat  and update last content before change conversation
     if (listChatData.current.length > 0) {
       insertChatAndUpdateLastContentToDB(listChatData.current);
