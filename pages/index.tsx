@@ -4,7 +4,7 @@ import Body from "./Body";
 import React from "react";
 
 // export const server =  "http://localhost:3000"
-export const server = "https://chat-app-binh-hu.herokuapp.com:50675";
+export const server = "https://chat-app-binh-hu.herokuapp.com";
 
 const Home: NextPage = () => {
   return (
