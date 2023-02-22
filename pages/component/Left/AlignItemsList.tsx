@@ -14,9 +14,9 @@ import GroupChatObject from "../../../Object/GroupChatObject";
 
 // const io = require("socket.io-client");
 const io = require("socket.io-client")(
-  "https://chat-app-binh-hu.herokuapp.com:80",
+  "https://chat-app-binh-hu.herokuapp.com:443",
   {
-    rejectUnauthorized: false, // WARN: please do not do this in production
+    // rejectUnauthorized: false, // WARN: please do not do this in production
   }
 );
 
