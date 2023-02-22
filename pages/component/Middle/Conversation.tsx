@@ -61,26 +61,26 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
 
   //TODO: Waiting 1s to rending date then scroll down
 
-  async function scrollDownAfter1s() {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    const boxElement = document?.getElementById("divElem");
-    boxElement?.scrollTo({
-      top: 1000,
-      behavior: "smooth",
-    });
-  }
+  // async function scrollDownAfter1s() {
+  //   await new Promise((resolve) => setTimeout(resolve, 1000));
+  //   const boxElement = document?.getElementById("divElem");
+  //   boxElement?.scrollTo({
+  //     top: 1000,
+  //     behavior: "smooth",
+  //   });
+  // }
   // TODO: Auto save chat  and update last content after 15s
-  useEffect(() => {
-    let intervalForSaveChat = setInterval(() => {
-      if (listChatData.current.length > 0) {
-        insertChatAndUpdateLastContentToDB(listChatData.current);
-        listChatData.current.length = 0;
-      }
-    }, 15 * 1000);
-    return () => {
-      clearInterval(intervalForSaveChat);
-    };
-  }, []);
+  // useEffect(() => {
+  //   let intervalForSaveChat = setInterval(() => {
+  //     if (listChatData.current.length > 0) {
+  //       // insertChatAndUpdateLastContentToDB(listChatData.current);
+  //       listChatData.current.length = 0;
+  //     }
+  //   }, 15 * 1000);
+  //   return () => {
+  //     clearInterval(intervalForSaveChat);
+  //   };
+  // }, []);
 
   useEffect(() => {
     // TODO: Add socketio and render data
@@ -104,7 +104,7 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
 
     //save chat  and update last content before change conversation
     if (listChatData.current.length > 0) {
-      insertChatAndUpdateLastContentToDB(listChatData.current);
+      // insertChatAndUpdateLastContentToDB(listChatData.current);
       listChatData.current.length = 0;
     }
     setLoading(true);
@@ -115,7 +115,7 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
         setLoading(false);
         // scrollDownAfter1s();
       });
-    setIsScroll(true);
+    // setIsScroll(true);
 
     return () => {
       socket.disconnect();
@@ -123,47 +123,47 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
   }, [ChatDataProps?.groupId]);
 
   // TODO: insertChatToDB and update last chat content
-  function insertChatAndUpdateLastContentToDB(saveChatData: any) {
-    const last_length = saveChatData.length - 1;
-    const group_id = saveChatData[last_length].id_chat_group;
-    const last_chat_content = saveChatData[last_length].content;
-    try {
-      fetch(server + "/api/chats/insertChats", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(saveChatData),
-      });
-    } catch (error) {
-      console.warn("Insert chat fail!");
-    }
+  // function insertChatAndUpdateLastContentToDB(saveChatData: any) {
+  //   const last_length = saveChatData.length - 1;
+  //   const group_id = saveChatData[last_length].id_chat_group;
+  //   const last_chat_content = saveChatData[last_length].content;
+  //   try {
+  //     fetch(server + "/api/chats/insertChats", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(saveChatData),
+  //     });
+  //   } catch (error) {
+  //     console.warn("Insert chat fail!");
+  //   }
 
-    const changeData = { group_id, last_chat_content };
-    try {
-      fetch(server + "/api/groups/updateLastContent", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(changeData),
-      });
-    } catch (error) {
-      console.warn("update Last Chat Content fail!");
-    }
-  }
+  //   // const changeData = { group_id, last_chat_content };
+  //   // try {
+  //   //   fetch(server + "/api/groups/updateLastContent", {
+  //   //     method: "POST",
+  //   //     headers: {
+  //   //       "Content-Type": "application/json",
+  //   //     },
+  //   //     body: JSON.stringify(changeData),
+  //   //   });
+  //   // } catch (error) {
+  //   //   console.warn("update Last Chat Content fail!");
+  //   // }
+  // }
 
   return (
     <StyleBox
       id="divElem"
-      sx={
-        isScroll
-          ? {}
-          : {
-              display: "flex",
-              flexDirection: "column-reverse",
-            }
-      }
+      // sx={
+      //   isScroll
+      //     ? {}
+      //     : {
+      //         display: "flex",
+      //         flexDirection: "column-reverse",
+      //       }
+      // }
     >
       {loading ? (
         <Typography sx={{ textAlign: "center" }}>Loading...</Typography>
