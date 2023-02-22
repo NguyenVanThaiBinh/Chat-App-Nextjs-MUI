@@ -113,7 +113,7 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
       .then((data) => {
         setChatData(data);
         setLoading(false);
-        scrollDownAfter1s();
+        // scrollDownAfter1s();
       });
     setIsScroll(true);
 

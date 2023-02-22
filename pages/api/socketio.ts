@@ -3,7 +3,14 @@ import { Server } from "socket.io";
 const ioHandler = (req: any, res: any) => {
   if (!res.socket.server.io) {
     console.log("Socket is initializing");
-    const io = new Server(res.socket.server);
+    const io = new Server(res.socket.server, {
+      cors: {
+        origin: "https://chat-app-binh-hu.herokuapp.com",
+        methods: ["GET", "POST"],
+        // allowedHeaders: ["my-custom-header"],
+        credentials: true,
+      },
+    });
     res.socket.server.io = io;
 
     io.on("connection", (socket) => {
