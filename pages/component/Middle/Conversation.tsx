@@ -14,7 +14,7 @@ import ChatObject from "../../../Object/ChatObject";
 
 // const io = require("socket.io-client");
 const io = require("socket.io-client")(
-  "https://chat-app-binh-hu.herokuapp.com:50675",
+  "https://chat-app-binh-hu.herokuapp.com:80",
   {
     rejectUnauthorized: false, // WARN: please do not do this in production
   }
