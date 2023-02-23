@@ -12,13 +12,13 @@ import { useSession } from "next-auth/react";
 import { server } from "../../index";
 import ChatObject from "../../../Object/ChatObject";
 
-// const io = require("socket.io-client");
-const io = require("socket.io-client")(
-  "https://chat-app-binh-hu.herokuapp.com:443",
-  {
-    rejectUnauthorized: false, // WARN: please do not do this in production
-  }
-);
+const io = require("socket.io-client");
+// const io = require("socket.io-client")(
+//   "https://chat-app-binh-hu.herokuapp.com:443",
+//   {
+//     rejectUnauthorized: false, // WARN: please do not do this in production
+//   }
+// );
 
 const StyleBox = styledMe(Box)`
   height: 83vh;
@@ -83,11 +83,12 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
   // }, []);
 
   useEffect(() => {
+    const userEmail = session && session.user ? session.user.email : null;
     // TODO: Add socketio and render data
     const socket = io();
     socket.on("connect", () => {
       socket.on(ChatDataProps?.groupId, (chatData: ChatObject) => {
-        if (chatData.from == session?.user?.email) {
+        if (chatData.from == userEmail) {
           listChatData.current.push(chatData);
         }
         setChatData((prev: any) => {
@@ -120,6 +121,7 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
     return () => {
       socket.disconnect();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ChatDataProps?.groupId]);
 
   // TODO: insertChatToDB and update last chat content
@@ -178,7 +180,7 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
           >
             {chatData.map((data: any, index: any) => (
               <React.Fragment key={index}>
-                {session?.user?.email != data.from ? (
+                {data.from != data.from ? (
                   <Grid item xs={12} container key={index}>
                     <Avatar
                       sx={{

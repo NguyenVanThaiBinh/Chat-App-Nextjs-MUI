@@ -36,5 +36,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 Swap Product and Developer must change:
 1. .env
 2. Index.ts
-3. const io = require
+3.const io  = require
 4. middleware.ts : const cookie_session
