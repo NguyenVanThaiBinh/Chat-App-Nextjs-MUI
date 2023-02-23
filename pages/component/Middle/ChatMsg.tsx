@@ -8,12 +8,6 @@ import { useSession } from "next-auth/react";
 
 const io = require("socket.io-client");
 
-// const io = require("socket.io-client")(
-//   "https://chat-app-binh-hu.herokuapp.com:443",
-//   {
-//    rejectUnauthorized: false, // WARN: please do not do this in production
-//   }
-// );
 
 export default function ChatMsg({ props: groupData }: { props: any }) {
   const { data: session } = useSession();

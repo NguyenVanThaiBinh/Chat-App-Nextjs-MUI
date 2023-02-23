@@ -13,12 +13,6 @@ import { server } from "../../index";
 import ChatObject from "../../../Object/ChatObject";
 
 const io = require("socket.io-client");
-// const io = require("socket.io-client")(
-//   "https://chat-app-binh-hu.herokuapp.com:443",
-//   {
-//     rejectUnauthorized: false, // WARN: please do not do this in production
-//   }
-// );
 
 const StyleBox = styledMe(Box)`
   height: 83vh;
@@ -61,26 +55,26 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
 
   //TODO: Waiting 1s to rending date then scroll down
 
-  // async function scrollDownAfter1s() {
-  //   await new Promise((resolve) => setTimeout(resolve, 1000));
-  //   const boxElement = document?.getElementById("divElem");
-  //   boxElement?.scrollTo({
-  //     top: 1000,
-  //     behavior: "smooth",
-  //   });
-  // }
+  async function scrollDownAfter1s() {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const boxElement = document?.getElementById("divElem");
+    boxElement?.scrollTo({
+      top: 1000,
+      behavior: "smooth",
+    });
+  }
   // TODO: Auto save chat  and update last content after 15s
-  // useEffect(() => {
-  //   let intervalForSaveChat = setInterval(() => {
-  //     if (listChatData.current.length > 0) {
-  //       // insertChatAndUpdateLastContentToDB(listChatData.current);
-  //       listChatData.current.length = 0;
-  //     }
-  //   }, 15 * 1000);
-  //   return () => {
-  //     clearInterval(intervalForSaveChat);
-  //   };
-  // }, []);
+  useEffect(() => {
+    let intervalForSaveChat = setInterval(() => {
+      if (listChatData.current.length > 0) {
+        insertChatAndUpdateLastContentToDB(listChatData.current);
+        listChatData.current.length = 0;
+      }
+    }, 15 * 1000);
+    return () => {
+      clearInterval(intervalForSaveChat);
+    };
+  }, []);
 
   useEffect(() => {
     const userEmail = session && session.user ? session.user.email : null;
@@ -99,13 +93,13 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
       });
     });
 
-    socket.on("disconnect", () => {
-      console.log(" socket disconnected");
-    });
+    // socket.on("disconnect", () => {
+    //   console.log(" socket disconnected");
+    // });
 
     //save chat  and update last content before change conversation
     if (listChatData.current.length > 0) {
-      // insertChatAndUpdateLastContentToDB(listChatData.current);
+      insertChatAndUpdateLastContentToDB(listChatData.current);
       listChatData.current.length = 0;
     }
     setLoading(true);
@@ -114,9 +108,9 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
       .then((data) => {
         setChatData(data);
         setLoading(false);
-        // scrollDownAfter1s();
+        scrollDownAfter1s();
       });
-    // setIsScroll(true);
+    setIsScroll(true);
 
     return () => {
       socket.disconnect();
@@ -125,47 +119,47 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
   }, [ChatDataProps?.groupId]);
 
   // TODO: insertChatToDB and update last chat content
-  // function insertChatAndUpdateLastContentToDB(saveChatData: any) {
-  //   const last_length = saveChatData.length - 1;
-  //   const group_id = saveChatData[last_length].id_chat_group;
-  //   const last_chat_content = saveChatData[last_length].content;
-  //   try {
-  //     fetch(server + "/api/chats/insertChats", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(saveChatData),
-  //     });
-  //   } catch (error) {
-  //     console.warn("Insert chat fail!");
-  //   }
+  function insertChatAndUpdateLastContentToDB(saveChatData: any) {
+    const last_length = saveChatData.length - 1;
+    const group_id = saveChatData[last_length].id_chat_group;
+    const last_chat_content = saveChatData[last_length].content;
+    try {
+      fetch(server + "/api/chats/insertChats", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(saveChatData),
+      });
+    } catch (error) {
+      console.warn("Insert chat fail!");
+    }
 
-  //   // const changeData = { group_id, last_chat_content };
-  //   // try {
-  //   //   fetch(server + "/api/groups/updateLastContent", {
-  //   //     method: "POST",
-  //   //     headers: {
-  //   //       "Content-Type": "application/json",
-  //   //     },
-  //   //     body: JSON.stringify(changeData),
-  //   //   });
-  //   // } catch (error) {
-  //   //   console.warn("update Last Chat Content fail!");
-  //   // }
-  // }
+    // const changeData = { group_id, last_chat_content };
+    // try {
+    //   fetch(server + "/api/groups/updateLastContent", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(changeData),
+    //   });
+    // } catch (error) {
+    //   console.warn("update Last Chat Content fail!");
+    // }
+  }
 
   return (
     <StyleBox
       id="divElem"
-      // sx={
-      //   isScroll
-      //     ? {}
-      //     : {
-      //         display: "flex",
-      //         flexDirection: "column-reverse",
-      //       }
-      // }
+      sx={
+        isScroll
+          ? {}
+          : {
+              display: "flex",
+              flexDirection: "column-reverse",
+            }
+      }
     >
       {loading ? (
         <Typography sx={{ textAlign: "center" }}>Loading...</Typography>
@@ -180,7 +174,9 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
           >
             {chatData.map((data: any, index: any) => (
               <React.Fragment key={index}>
-                {data.from != data.from ? (
+                {session && session.user ? (
+                  session.user.email
+                ) : null != data.from ? (
                   <Grid item xs={12} container key={index}>
                     <Avatar
                       sx={{
