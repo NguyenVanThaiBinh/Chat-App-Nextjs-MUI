@@ -13,6 +13,12 @@ import DefaultAvatar from "../../../asset/group_avatar.png";
 import GroupChatObject from "../../../Object/GroupChatObject";
 
 const io = require("socket.io-client");
+// const io = require("socket.io-client")(
+//   "https://chat-app-binh-hu.herokuapp.com",
+//   {
+//     rejectUnauthorized: false, // WARN: please do not do this in production
+//   }
+// );
 
 function AlignItemsList(props: any) {
   const [groupChatData, setChatGroupData] = useState<GroupChatObject[]>([]);
