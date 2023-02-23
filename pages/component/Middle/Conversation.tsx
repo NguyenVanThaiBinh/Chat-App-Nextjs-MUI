@@ -174,9 +174,7 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
           >
             {chatData.map((data: any, index: any) => (
               <React.Fragment key={index}>
-                {session && session.user ? (
-                  session.user.email
-                ) : null != data.from ? (
+                {session?.user?.email != data.from ? (
                   <Grid item xs={12} container key={index}>
                     <Avatar
                       sx={{
