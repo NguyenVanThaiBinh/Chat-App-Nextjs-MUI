@@ -14,7 +14,10 @@ handler.post(async (req, res) => {
     .then((data) => {
       if (data.result == true) isRegisteredUser = true;
     });
-  if (isRegisteredUser) return;
+  if (isRegisteredUser){
+    res.send(false);
+    return;
+  } 
 
   try {
     // insert and set group_id by _id

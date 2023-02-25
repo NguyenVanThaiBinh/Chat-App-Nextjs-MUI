@@ -4,19 +4,30 @@ import CreateConversation from "./component/Middle/CreateConversation";
 import Home from "./component/Middle/Home";
 import AlignItemsList from "./component/Left/AlignItemsList";
 import React from "react";
-import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { useState, useRef } from "react";
+import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 
 const SidebarContainer = styled(Grid)`
   height: 100vh;
-  min-width: 350px;
-  max-width: 430px;
+  // min-width: 350px;
+  // max-width: 430px;
   overflow-y: scroll;
   border-right: 1px solid whitesmoke;
 `;
 
+const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
+});
 export default function Body() {
   // 0 for default
   // 1 for ChatMsg
@@ -61,24 +72,26 @@ export default function Body() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Grid sx={{ paddingLeft: 3, paddingRight: 3 }} container spacing={2}>
-        <Grid item xs={6} md={3}>
-          <SidebarContainer>
-            <Sidebar handleOnClick={handleOnClickFromChild} />
-            <AlignItemsList
-              handleOnClick={handleOnClickFromChild}
-              re_render={GroupId.current}
-            />
-          </SidebarContainer>
+    <ThemeProvider theme={theme}>
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6} xl={3}>
+            <SidebarContainer sx={{ paddingLeft: 5 }}>
+              <Sidebar handleOnClick={handleOnClickFromChild} />
+              <AlignItemsList
+                handleOnClick={handleOnClickFromChild}
+                re_render={GroupId.current}
+              />
+            </SidebarContainer>
+          </Grid>
+          <Grid xs={12} sm={6} xl={5.5}>
+            {renderControl()}
+          </Grid>
+          <Grid item xs={12} sm={4} xl={3.5} sx={{ textAlign: "center" }}>
+            What should I do Here???
+          </Grid>
         </Grid>
-        <Grid item xs={6} md={6.5}>
-          {renderControl()}
-        </Grid>
-        <Grid item xs={6} md={2.5} sx={{ textAlign: "center" }}>
-          What should I do Here???
-        </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </ThemeProvider>
   );
 }

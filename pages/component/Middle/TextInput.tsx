@@ -7,12 +7,7 @@ import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 
-const inputProps = {
-  minwidth: 350,
-  maxwidth: 430,
-};
-
-  export default function  TextInput ({ props }: { props: any })  {
+export default function TextInput({ props }: { props: any }) {
   const [text, setText] = useState("");
   useEffect(() => {
     setText("");
@@ -35,15 +30,11 @@ const inputProps = {
     <>
       <Box
         sx={{
-          flexGrow: 2,
-          position: "fixed",
-          bottom: 0,
-          width: "95%",
-          marginBottom: 5,
+          marginTop: 2,
         }}
       >
         <Grid container>
-          <Grid item xs={6} md={6}>
+          <Grid xs={11}>
             <FormControl size="small" fullWidth>
               <TextField
                 value={text ? text : ""}
@@ -51,7 +42,6 @@ const inputProps = {
                 id="outlined-password-input"
                 label="Message"
                 type="text"
-                inputProps={inputProps}
                 multiline={true}
                 maxRows={3}
                 onChange={(e) => setText(e.target.value)}
@@ -59,11 +49,8 @@ const inputProps = {
               />
             </FormControl>
           </Grid>
-          <Grid item xs={6} md={6}>
-            <Button
-              color="primary"
-              sx={{ bottom: 0, position: "fixed", marginBottom: 6.5 }}
-            >
+          <Grid xs={1}>
+            <Button sx={{ marginTop: 1 }} color="primary">
               <FavoriteRoundedIcon />
             </Button>
           </Grid>
@@ -71,4 +58,4 @@ const inputProps = {
       </Box>
     </>
   );
-};
+}

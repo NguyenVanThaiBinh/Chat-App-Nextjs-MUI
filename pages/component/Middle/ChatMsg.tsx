@@ -8,7 +8,6 @@ import { useSession } from "next-auth/react";
 
 const io = require("socket.io-client");
 
-
 export default function ChatMsg({ props: groupData }: { props: any }) {
   const { data: session } = useSession();
 
@@ -53,7 +52,7 @@ export default function ChatMsg({ props: groupData }: { props: any }) {
 
   return (
     <>
-      <Grid>
+      <Grid container>
         <Grid item xs={12}>
           <Conversation props={ChatDataProps}></Conversation>
         </Grid>

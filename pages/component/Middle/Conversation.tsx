@@ -15,7 +15,7 @@ import ChatObject from "../../../Object/ChatObject";
 const io = require("socket.io-client");
 
 const StyleBox = styledMe(Box)`
-  height: 83vh;
+  height: 87.5vh;
   min-height: 50px;
   overflow-y: scroll;
   border-right: 1px solid whitesmoke;
@@ -34,6 +34,7 @@ const ItemLeft = styled(Paper)(({ theme }) => ({
   color: "white",
   borderRadius: 30,
   maxWidth: "40%",
+  wordWrap: "break-word",
 }));
 const ItemRight = styled(Paper)(({ theme }) => ({
   backgroundColor: "rgb(0, 132, 255)",
@@ -44,6 +45,7 @@ const ItemRight = styled(Paper)(({ theme }) => ({
   borderRadius: 30,
   maxWidth: "40%",
   marginRight: 12,
+  wordWrap: "break-word",
 }));
 
 export default function Conversation({ props: ChatDataProps }: { props: any }) {
@@ -165,17 +167,17 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
         <Typography sx={{ textAlign: "center" }}>Loading...</Typography>
       ) : (
         <>
-          <Grid
-            container
-            rowSpacing={1.5}
-            direction="row"
-            justifyContent="flex-end"
-            alignItems="center"
-          >
+          <Grid direction="row" justifyContent="flex-end" alignItems="center">
             {chatData.map((data: any, index: any) => (
               <React.Fragment key={index}>
                 {session?.user?.email != data.from ? (
-                  <Grid item xs={12} container key={index}>
+                  <Grid
+                    sx={{ marginTop: 1 }}
+                    item
+                    xs={12}
+                    container
+                    key={index}
+                  >
                     <Avatar
                       sx={{
                         width: 30,
@@ -191,6 +193,7 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
                   </Grid>
                 ) : (
                   <Grid
+                    sx={{ marginTop: 1 }}
                     item
                     xs={12}
                     container

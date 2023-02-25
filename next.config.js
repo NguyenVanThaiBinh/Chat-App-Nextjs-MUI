@@ -2,6 +2,7 @@
 const nextConfig = {
   reactStrictMode: false,
   swcMinify: true,
+  darkmode: false,
   compiler: {
     styledComponents: true,
   },

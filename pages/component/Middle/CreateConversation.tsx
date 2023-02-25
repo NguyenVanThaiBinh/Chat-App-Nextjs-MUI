@@ -23,7 +23,6 @@ const StyleBox = styledMe(Box)`
   min-height: 50px;
   width: "100%";
   background-color: #f0f0f0;
-  
 `;
 const StyleBox2 = styledMe(Box)`
   height: 78vh;
@@ -32,7 +31,6 @@ const StyleBox2 = styledMe(Box)`
   border-right: 1px solid whitesmoke;
   width: "100%";
   background-color: #f0f0f0;
-  padding-left: 16px;
 
 `;
 export default function CreateConversation(props: any) {
@@ -113,7 +111,9 @@ export default function CreateConversation(props: any) {
         .then((response) => response.json())
         .then((new_group_id) => {
           // console.log("AAA: " + new_group_id);
-          props.handleDoubleClick(new_group_id, memberData, newUrl);
+          if (new_group_id != false) {
+            props.handleDoubleClick(new_group_id, memberData, newUrl);
+          }
         });
     } catch (error) {
       console.warn("Insert group fail!");
@@ -122,7 +122,7 @@ export default function CreateConversation(props: any) {
   return (
     <>
       <StyleBox>
-        <Grid container>
+        <Grid>
           <Grid item xs={12} sx={{ textAlign: "center", marginTop: "1em" }}>
             <Typography
               sx={{
