@@ -34,7 +34,7 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 Swap Product and Developer must change:
+
 1. .env
 2. Index.ts
-3.const io  = require
-4. middleware.ts : const cookie_session
+3. middleware.ts : const cookie_session

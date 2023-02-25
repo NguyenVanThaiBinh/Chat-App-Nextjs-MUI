@@ -43,6 +43,26 @@ export default function CreateConversation(props: any) {
   const userNickname = session && session.user ? session.user.name : null;
   const userUrl = session && session.user ? session.user.image : null;
 
+  const debounceSearchUsers = useCallback(
+    debounce((nextValue) => {
+      fetch(server + `/api/users/findUser?searchKey=${nextValue}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.length > 0) {
+            const filteredData = data.filter(
+              (group: any) => group.email != userEmail
+            );
+            setLoading(1);
+            setSearchData(filteredData);
+          }
+          if (data.length == 0) {
+            setSearchData(data);
+            setLoading(0);
+          }
+        });
+    }, 2000),
+    [] // eslint-disable-line react-hooks/exhaustive-deps
+  );
   const keyPress = (e: any) => {
     e.preventDefault();
     const keySearch = e.target.value;
@@ -52,23 +72,7 @@ export default function CreateConversation(props: any) {
     }
 
     if (keySearch.trim() != "" && keySearch.length > 2) {
-      debounce(() => {
-        fetch(server + `/api/users/findUser?searchKey=${e.target.value}`)
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.length > 0) {
-              const filteredData = data.filter(
-                (group: any) => group.email != userEmail
-              );
-              setLoading(1);
-              setSearchData(filteredData);
-            }
-            if (data.length == 0) {
-              setSearchData(data);
-              setLoading(0);
-            }
-          });
-      }, 2000);
+      debounceSearchUsers(keySearch);
     }
   };
   const handleDoubleClick = (

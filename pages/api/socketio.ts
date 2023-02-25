@@ -7,7 +7,6 @@ const ioHandler = (req: any, res: any) => {
       cors: {
         origin: "https://chat-app-binh-hu.herokuapp.com",
         methods: ["GET", "POST"],
-        // allowedHeaders: ["my-custom-header"],
         credentials: true,
       },
     });
