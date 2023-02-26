@@ -14,13 +14,14 @@ import { useSession } from "next-auth/react";
 import { server } from "../../index";
 
 const StyleBox = styledMe(Box)`
-  height: 95vh;
+  height: 100vh;
   min-height: 50px;
   overflow-y: scroll;
   border-right: 1px solid whitesmoke;
   width: "100%";
-  margin-top: 2em;
-  background-color: #f0f0f0;
+  @media only screen and (max-width: 429px) {
+   display:none;
+  }
   
 `;
 export default function Home() {

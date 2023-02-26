@@ -22,7 +22,7 @@ const StyleBox = styledMe(Box)`
   height: 22vh;
   min-height: 50px;
   width: "100%";
-  background-color: #f0f0f0;
+
 `;
 const StyleBox2 = styledMe(Box)`
   height: 78vh;
@@ -30,7 +30,7 @@ const StyleBox2 = styledMe(Box)`
   overflow-y: scroll;
   border-right: 1px solid whitesmoke;
   width: "100%";
-  background-color: #f0f0f0;
+  
 
 `;
 export default function CreateConversation(props: any) {
@@ -123,7 +123,7 @@ export default function CreateConversation(props: any) {
     <>
       <StyleBox>
         <Grid>
-          <Grid item xs={12} sx={{ textAlign: "center", marginTop: "1em" }}>
+          <Grid item xs={12} sx={{ textAlign: "center", marginTop: "2em" }}>
             <Typography
               sx={{
                 marginBottom: "1em",
@@ -134,7 +134,7 @@ export default function CreateConversation(props: any) {
             >
               Add friend and Enjoy!!!
             </Typography>
-            <FormControl sx={{ width: "500px" }}>
+            <FormControl sx={{ width: "25em" }}>
               <TextField
                 inputRef={(input) => input && input.focus()}
                 label="Input your friend Name or Email"
@@ -207,6 +207,8 @@ export default function CreateConversation(props: any) {
                         <ListItemText
                           sx={{
                             color: "black",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
                           }}
                           primary={object.nickname}
                           secondary={

@@ -76,7 +76,7 @@ export default function Body() {
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6} xl={3}>
-            <SidebarContainer sx={{ paddingLeft: 5 }}>
+            <SidebarContainer sx={{ paddingLeft: 4 }}>
               <Sidebar handleOnClick={handleOnClickFromChild} />
               <AlignItemsList
                 handleOnClick={handleOnClickFromChild}
@@ -84,7 +84,13 @@ export default function Body() {
               />
             </SidebarContainer>
           </Grid>
-          <Grid xs={12} sm={6} xl={5.5}>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            xl={5.5}
+            sx={{ backgroundColor: "#f0f0f0" }}
+          >
             {renderControl()}
           </Grid>
           <Grid item xs={12} sm={4} xl={3.5} sx={{ textAlign: "center" }}>
