@@ -76,7 +76,7 @@ export default function Body() {
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6} xl={3}>
-            <SidebarContainer sx={{ paddingLeft: 4 }}>
+            <SidebarContainer sx={{ paddingLeft: "17px" }}>
               <Sidebar handleOnClick={handleOnClickFromChild} />
               <AlignItemsList
                 handleOnClick={handleOnClickFromChild}
