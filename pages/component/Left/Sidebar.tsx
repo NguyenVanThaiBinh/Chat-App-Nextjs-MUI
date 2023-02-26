@@ -10,6 +10,7 @@ import { useSession, signOut } from "next-auth/react";
 import styled from "styled-components";
 import { server } from "../../index";
 import { useEffect, memo } from "react";
+import UserObject from "../../../Object/UserObject";
 
 const StyleHeader = styled.div`
   display: flex;
@@ -52,6 +53,23 @@ const StyleSearchInput = styled.input`
 function Sidebar(props: any) {
   const { data: session } = useSession();
   const handleClickFromSidebar = () => props.handleOnClick(null);
+
+  useEffect(() => {
+    if (session?.user != null || session?.user != undefined) {
+      try {
+        fetch(server + "/api/users/insertUser", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(session?.user),
+        });
+      } catch (error) {
+        console.warn("Insert User fail!");
+      }
+    }
+  }, [session]);
+
   return (
     <>
       <StyleHeader>
