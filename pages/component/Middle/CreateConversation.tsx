@@ -14,7 +14,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import React from "react";
 import DefaultAvatar from "../../../asset/group_avatar.png";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useSession } from "next-auth/react";
 import { server } from "../../index";
 import { debounce } from "@mui/material";
@@ -41,9 +41,16 @@ export default function CreateConversation(props: any) {
   const userNickname = session && session.user ? session.user.name : null;
   const userUrl = session && session.user ? session.user.image : null;
 
-  const debounceSearchUsers = useCallback(
-    debounce((nextValue) => {
-      fetch(server + `/api/users/findUser?searchKey=${nextValue}`)
+  const keyPress = (e: any) => {
+    e.preventDefault();
+    const keySearch = e.target.value;
+    if (keySearch.length <= 2 || keySearch.trim() == "") {
+      setSearchData([]);
+      setLoading(-1);
+    }
+
+    if (keySearch.trim() != "" && keySearch.length > 2) {
+      fetch(server + `/api/users/findUser?searchKey=${keySearch}`)
         .then((response) => response.json())
         .then((data) => {
           if (data.length > 0) {
@@ -58,21 +65,9 @@ export default function CreateConversation(props: any) {
             setLoading(0);
           }
         });
-    }, 2000),
-    [] // eslint-disable-line react-hooks/exhaustive-deps
-  );
-  const keyPress = (e: any) => {
-    e.preventDefault();
-    const keySearch = e.target.value;
-    if (keySearch.length <= 2 || keySearch.trim() == "") {
-      setSearchData([]);
-      setLoading(-1);
-    }
-
-    if (keySearch.trim() != "" && keySearch.length > 2) {
-      debounceSearchUsers(keySearch);
     }
   };
+  const debounceSearchUsers = useCallback(debounce(keyPress, 2000), []); // eslint-disable-line react-hooks/exhaustive-deps
   const handleDoubleClick = (
     newNickname: string,
     newEmail: string,
@@ -141,7 +136,7 @@ export default function CreateConversation(props: any) {
                 type="text"
                 multiline={false}
                 maxRows={1}
-                onChange={keyPress}
+                onChange={debounceSearchUsers}
               />
             </FormControl>
           </Grid>
