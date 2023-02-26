@@ -26,12 +26,12 @@ db.Users.insertMany([
     photoUserUrl: "https://abc.com/photos/dang.jpg",
   },
     {
-    email: "anhkhoa@gmail.com",
+    email: "leanhkhoa30101998@gmail.com",
     fullname: "Le Anh Khoa",
-    nickname: "Khoa Pub", //if nickname is null get fullname
+    nickname: "Khoa Anh", 
     last_active:  new Timestamp() ,
     isOnline: true,
-    photoUserUrl: "https://abc.com/photos/khoa.jpg",
+    photoUserUrl: "https://lh3.googleusercontent.com/a/AGNmyxbQtRkAAb5nMjPTknMeq8W5RNYNUEXLxs_BzjkojA=s96-c",
   },
   {
     email: "binh@gmail.com",
@@ -153,6 +153,14 @@ db.Users.insertMany([
     last_active: new Timestamp(),
     isOnline: false,
     photoUserUrl: "https://abc.com/photos/Binh.jpg",
+  },
+   {
+    email: "thaivanchuc101198@gmail.com",
+    fullname: "Chuc Thai",
+    nickname: "Chuc Thai",
+    last_active: new Timestamp(),
+    isOnline: false,
+    photoUserUrl: "https://lh3.googleusercontent.com/a/AGNmyxa6f7pkczjCcX9ccOLrich7ucV1naRKtUceIA-v=s96-c",
   },
 ]);
 

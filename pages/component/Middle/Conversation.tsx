@@ -15,7 +15,7 @@ import ChatObject from "../../../Object/ChatObject";
 const io = require("socket.io-client");
 
 const StyleBox = styledMe(Box)`
-  height: 87.5vh;
+  height: 88vh;
   min-height: 50px;
   overflow-y: scroll;
   border-right: 1px solid whitesmoke;
@@ -112,7 +112,7 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
         setLoading(false);
         scrollDownAfter1s();
       });
-    setIsScroll(true);
+    // setIsScroll(true);
 
     return () => {
       socket.disconnect();
@@ -167,7 +167,13 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
         <Typography sx={{ textAlign: "center" }}>Loading...</Typography>
       ) : (
         <>
-          <Grid direction="row" justifyContent="flex-end" alignItems="center">
+          <Grid
+            container
+            direction="row"
+            justifyContent="flex-end"
+            alignItems="center"
+            sx={{ marginBottom: 3 }}
+          >
             {chatData.map((data: any, index: any) => (
               <React.Fragment key={index}>
                 {session?.user?.email != data.from ? (

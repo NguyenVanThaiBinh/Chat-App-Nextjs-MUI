@@ -4,12 +4,12 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   const url = request.nextUrl;
   //local
-  const cookie_session = request.cookies.get("next-auth.session-token");
+  // const cookie_session = request.cookies.get("next-auth.session-token");
 
   // product
-  // const cookie_session = request.cookies.get(
-  //   "__Secure-next-auth.session-token"
-  // );
+  const cookie_session = request.cookies.get(
+    "__Secure-next-auth.session-token"
+  );
 
   if (url.pathname === "/" && cookie_session == null) {
     url.pathname = "/login";
