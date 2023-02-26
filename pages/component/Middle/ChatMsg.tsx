@@ -5,9 +5,17 @@ import Grid from "@mui/material/Grid";
 import Conversation from "./Conversation";
 import { server } from "../../index";
 import { useSession } from "next-auth/react";
+import Box from "@mui/material/Box";
+import styledMe from "styled-components";
 
 const io = require("socket.io-client");
 
+const StyleGrid = styledMe(Grid)`
+  @media only screen and (max-width: 429px) { 
+  height: 51em;
+  }
+  
+`;
 export default function ChatMsg({ props: groupData }: { props: any }) {
   const { data: session } = useSession();
 
@@ -52,14 +60,16 @@ export default function ChatMsg({ props: groupData }: { props: any }) {
 
   return (
     <>
-      <Grid container>
-        <Grid item xs={12}>
-          <Conversation props={ChatDataProps}></Conversation>
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid container>
+          <StyleGrid item xs={12}>
+            <Conversation props={ChatDataProps}></Conversation>
+          </StyleGrid>
+          <Grid item xs={12}>
+            <TextInput props={handleChangDataTextInput}></TextInput>
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <TextInput props={handleChangDataTextInput}></TextInput>
-        </Grid>
-      </Grid>
+      </Box>
     </>
   );
 }

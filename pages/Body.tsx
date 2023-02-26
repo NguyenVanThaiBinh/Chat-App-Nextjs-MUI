@@ -8,11 +8,10 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { useState, useRef } from "react";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
+import Information from "./component/Right/Information";
 
 const SidebarContainer = styled(Grid)`
   height: 100vh;
-  // min-width: 350px;
-  // max-width: 430px;
   overflow-y: scroll;
   border-right: 1px solid whitesmoke;
 `;
@@ -75,7 +74,7 @@ export default function Body() {
     <ThemeProvider theme={theme}>
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6} xl={3}>
+          <Grid item xs={13} sm={6} xl={3}>
             <SidebarContainer sx={{ paddingLeft: "17px" }}>
               <Sidebar handleOnClick={handleOnClickFromChild} />
               <AlignItemsList
@@ -94,7 +93,7 @@ export default function Body() {
             {renderControl()}
           </Grid>
           <Grid item xs={12} sm={4} xl={3.5} sx={{ textAlign: "center" }}>
-            What should I do Here???
+            <Information></Information>
           </Grid>
         </Grid>
       </Box>

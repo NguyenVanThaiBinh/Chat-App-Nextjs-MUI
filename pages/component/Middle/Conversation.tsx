@@ -15,11 +15,11 @@ import ChatObject from "../../../Object/ChatObject";
 const io = require("socket.io-client");
 
 const StyleBox = styledMe(Box)`
-  height: 88vh;
+  height: 85vh;
   min-height: 50px;
   overflow-y: scroll;
   border-right: 1px solid whitesmoke;
-  width: "100%";
+  width: 100%;
   margin-top: 2em;
   
 `;
@@ -33,7 +33,7 @@ const ItemLeft = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: "white",
   borderRadius: 30,
-  maxWidth: "40%",
+  maxWidth: "50%",
   wordWrap: "break-word",
 }));
 const ItemRight = styled(Paper)(({ theme }) => ({
@@ -43,7 +43,7 @@ const ItemRight = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: "white",
   borderRadius: 30,
-  maxWidth: "40%",
+  maxWidth: "50%",
   marginRight: 12,
   wordWrap: "break-word",
 }));
@@ -167,13 +167,7 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
         <Typography sx={{ textAlign: "center" }}>Loading...</Typography>
       ) : (
         <>
-          <Grid
-            container
-            direction="row"
-            justifyContent="flex-end"
-            alignItems="center"
-            sx={{ marginBottom: 3 }}
-          >
+          <Grid sx={{ marginBottom: 3 }}>
             {chatData.map((data: any, index: any) => (
               <React.Fragment key={index}>
                 {session?.user?.email != data.from ? (

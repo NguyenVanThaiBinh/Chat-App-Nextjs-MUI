@@ -14,7 +14,6 @@ import GroupChatObject from "../../../Object/GroupChatObject";
 
 const io = require("socket.io-client");
 
-
 function AlignItemsList(props: any) {
   const [groupChatData, setChatGroupData] = useState<GroupChatObject[]>([]);
   const [backgroundColor, setBackgroundColor] = useState("");

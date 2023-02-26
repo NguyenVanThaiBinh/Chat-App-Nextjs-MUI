@@ -28,11 +28,9 @@ export default function TextInput({ props }: { props: any }) {
   };
   return (
     <>
-      <Box
-       
-      >
+      <Box>
         <Grid container>
-          <Grid item xs={11}>
+          <Grid item xs={10}>
             <FormControl size="small" fullWidth>
               <TextField
                 value={text ? text : ""}
@@ -47,7 +45,7 @@ export default function TextInput({ props }: { props: any }) {
               />
             </FormControl>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={2}>
             <Button sx={{ marginTop: 1 }} color="primary">
               <FavoriteRoundedIcon />
             </Button>
