@@ -8,16 +8,16 @@ handler.post(async (req, res) => {
   let isRegisteredUser = false;
   const groupData = req.body;
   await fetch(
-    `${server}/api/groups/isRegisteredGroup?mixName1=${groupData.validateGroup.mixName1}`
+    `${server}/api/groups/isRegisteredGroup?validateGroup=${groupData.validateGroup}`
   )
     .then((response) => response.json())
     .then((data) => {
       if (data.result == true) isRegisteredUser = true;
     });
-  if (isRegisteredUser){
+  if (isRegisteredUser) {
     res.send(false);
     return;
-  } 
+  }
 
   try {
     // insert and set group_id by _id

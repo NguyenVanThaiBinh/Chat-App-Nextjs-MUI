@@ -8,12 +8,7 @@ handler.get(async (req, res) => {
   try {
     await connectToDatabase();
     const groupChat = await collections
-      .chatgroup!.find({
-        $or: [
-          { "validateGroup.mixName1": req.query.mixName1 },
-          { "validateGroup.mixName2": req.query.mixName1 },
-        ],
-      })
+      .chatgroup!.find({ validateGroup: req.query.validateGroup })
       .toArray();
 
     if (groupChat.length != 0) {

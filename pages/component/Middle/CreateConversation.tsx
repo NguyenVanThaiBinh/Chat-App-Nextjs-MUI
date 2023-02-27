@@ -71,6 +71,7 @@ export default function CreateConversation(props: any) {
     newEmail: string,
     newUrl: string
   ) => {
+    const emailArray = [userEmail, newEmail];
     const groupData = {
       group_id: "",
       chat_name: "",
@@ -80,10 +81,7 @@ export default function CreateConversation(props: any) {
       ],
       last_chat_content: "",
       photoGroupChatUrl: "",
-      validateGroup: {
-        mixName1: userEmail + newEmail,
-        mixName2: newEmail + userEmail,
-      },
+      validateGroup: emailArray.sort().toString().replace(",", ""),
     };
 
     const memberData = [
