@@ -11,7 +11,9 @@ handler.post(async (req, res) => {
         { group_id: req.body.group_id.toString() },
         { $set: { last_chat_content: req.body.last_chat_content.toString() } }
       );
+      res.send("Update last msg correctly!");
     } else {
+      res.send("Update last msg fail!");
       console.warn("Nothing to update!");
     }
   } catch (error: any) {

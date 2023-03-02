@@ -54,6 +54,7 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
   const [loading, setLoading] = useState(false);
   const [isScroll, setIsScroll] = useState(true);
   const listChatData = useRef<ChatObject[]>([]);
+  const userSession = session?.expires;
 
   //TODO: Waiting 1s to rending date then scroll down
 
@@ -84,8 +85,12 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
     const socket = io();
     socket.on("connect", () => {
       socket.on(ChatDataProps?.groupId, (chatData: ChatObject) => {
-        if (chatData.from == userEmail) {
+        console.log(chatData.userExpires);
+
+        // just save chat data from 1 side
+        if (chatData.from == userEmail && userSession == session?.expires) {
           listChatData.current.push(chatData);
+          console.log(listChatData.current);
         }
         setChatData((prev: any) => {
           const newChatData = [...prev, chatData] as any;
@@ -137,18 +142,18 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
       console.warn("Insert chat fail!");
     }
 
-    // const changeData = { group_id, last_chat_content };
-    // try {
-    //   fetch(server + "/api/groups/updateLastContent", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(changeData),
-    //   });
-    // } catch (error) {
-    //   console.warn("update Last Chat Content fail!");
-    // }
+    const changeData = { group_id, last_chat_content };
+    try {
+      fetch(server + "/api/groups/updateLastContent", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(changeData),
+      });
+    } catch (error) {
+      console.warn("update Last Chat Content fail!");
+    }
   }
 
   return (

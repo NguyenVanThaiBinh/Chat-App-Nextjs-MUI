@@ -27,7 +27,7 @@ handler.post(async (req, res) => {
       { _id: groupChat?.insertedId },
       { $set: { group_id: groupChat?.insertedId.toString() } }
     );
-    res.send(groupChat?.insertedId);
+    res.send("User groupChat done!!!");
   } catch (error: any) {
     res.send(error.message);
   }

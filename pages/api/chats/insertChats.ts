@@ -8,7 +8,9 @@ handler.post(async (req, res) => {
     if (req.body != null) {
       await connectToDatabase();
       await collections.chat?.insertMany(req.body);
+      res.send("Insert correctly!");
     } else {
+      res.send("Nothing to insert!");
       console.warn("Nothing to insert!");
     }
   } catch (error: any) {
