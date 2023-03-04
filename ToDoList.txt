@@ -3,7 +3,7 @@
 
 3: For chatting        
          3.0 Find and add new friend
-3.1 When chat from only 1 side, other can save chat correctly.
+         3.1 When chat from only 1 side, other can save chat correctly.
 3.2 Add send heart message
 3.3 Auto generate chat and make a sound when start chat form 1 side.
 3.4 InsertUser API run too much.
