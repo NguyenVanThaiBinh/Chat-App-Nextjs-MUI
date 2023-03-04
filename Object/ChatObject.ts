@@ -6,7 +6,7 @@ export default class ChatObject {
   send_at: Date;
   type: string;
   content: string;
-  userExpires: string;
+  nextAuthToken: string;
   constructor(
     id_chat_group: string,
     from: string,
@@ -15,7 +15,7 @@ export default class ChatObject {
     send_at: Date,
     type: string,
     content: string,
-    userExpires: string
+    nextAuthToken: string
   ) {
     this.id_chat_group = id_chat_group;
     this.from = from;
@@ -24,6 +24,6 @@ export default class ChatObject {
     this.send_at = send_at;
     this.type = type;
     this.content = content;
-    this.userExpires = userExpires;
+    this.nextAuthToken = nextAuthToken;
   }
 }

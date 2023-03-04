@@ -11,6 +11,8 @@ import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { server } from "../../index";
 import ChatObject from "../../../Object/ChatObject";
+import type { NextRequest } from "next/server";
+import { middleware } from "../../../middleware";
 
 const io = require("socket.io-client");
 
@@ -48,7 +50,10 @@ const ItemRight = styled(Paper)(({ theme }) => ({
   wordWrap: "break-word",
 }));
 
-export default function Conversation({ props: ChatDataProps }: { props: any }) {
+export default function Conversation(
+  { props: ChatDataProps }: { props: any },
+  request: NextRequest
+) {
   const { data: session } = useSession();
   const [chatData, setChatData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -73,7 +78,7 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
         insertChatAndUpdateLastContentToDB(listChatData.current);
         listChatData.current.length = 0;
       }
-    }, 15 * 1000);
+    }, 5 * 1000);
     return () => {
       clearInterval(intervalForSaveChat);
     };
@@ -85,12 +90,9 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
     const socket = io();
     socket.on("connect", () => {
       socket.on(ChatDataProps?.groupId, (chatData: ChatObject) => {
-        console.log(chatData.userExpires);
-
         // just save chat data from 1 side
         if (chatData.from == userEmail && userSession == session?.expires) {
           listChatData.current.push(chatData);
-          console.log(listChatData.current);
         }
         setChatData((prev: any) => {
           const newChatData = [...prev, chatData] as any;
@@ -117,7 +119,7 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
         setLoading(false);
         scrollDownAfter1s();
       });
-    // setIsScroll(true);
+    setIsScroll(true);
 
     return () => {
       socket.disconnect();

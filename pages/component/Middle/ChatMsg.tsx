@@ -49,7 +49,6 @@ export default function ChatMsg({ props: groupData }: { props: any }) {
           ],
           send_at: new Date(),
           type: "text",
-          userExpires: session?.expires,
         });
       });
 
