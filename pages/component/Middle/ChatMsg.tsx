@@ -12,7 +12,7 @@ const io = require("socket.io-client");
 
 const StyleGrid = styledMe(Grid)`
   @media only screen and (max-width: 429px) { 
-  height: 51em;
+  height: 49em;
   }
   
 `;
