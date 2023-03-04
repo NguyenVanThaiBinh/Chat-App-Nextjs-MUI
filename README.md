@@ -35,7 +35,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 Swap Product and Developer must change:
 
-0. http://localhost:3000 -> https://chat-app-binh-hu.herokuapp.com
 1. .env
 2. Index.ts
 3. middleware.ts : const cookie_session
