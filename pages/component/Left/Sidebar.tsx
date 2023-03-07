@@ -68,7 +68,9 @@ function Sidebar(props: any) {
         console.warn("Insert User fail!");
       }
     }
-  }, [session]);
+    // TODO: Run Socket sever here
+    fetch(server + "/api/socketio").finally(() => {});
+  }, []);
 
   return (
     <>
