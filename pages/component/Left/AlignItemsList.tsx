@@ -69,7 +69,7 @@ function AlignItemsList(props: any) {
 
       setChatGroupData(data);
     };
-  }, [status, userEmail, props.re_render]);
+  }, [status, userEmail, props.group_id]);
 
   return (
     <>

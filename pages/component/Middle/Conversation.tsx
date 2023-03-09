@@ -12,7 +12,6 @@ import { useSession } from "next-auth/react";
 import { server } from "../../index";
 import ChatObject from "../../../Object/ChatObject";
 import type { NextRequest } from "next/server";
-import { middleware } from "../../../middleware";
 
 const io = require("socket.io-client");
 
@@ -50,10 +49,7 @@ const ItemRight = styled(Paper)(({ theme }) => ({
   wordWrap: "break-word",
 }));
 
-export default function Conversation(
-  { props: ChatDataProps }: { props: any },
-  request: NextRequest
-) {
+export default function Conversation({ props: ChatDataProps }: { props: any }) {
   const { data: session } = useSession();
   const [chatData, setChatData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -112,6 +108,7 @@ export default function Conversation(
       listChatData.current.length = 0;
     }
     setLoading(true);
+    //get Chat from group_id
     fetch(server + `/api/chats/${ChatDataProps?.groupId}`)
       .then((response) => response.json())
       .then((data) => {

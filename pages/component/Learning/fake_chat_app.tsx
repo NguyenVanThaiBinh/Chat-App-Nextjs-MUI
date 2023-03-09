@@ -35,7 +35,7 @@ const Test = () => {
 
   useEffect(() => {
     const handleComment = ({ detail }: any) => {
-      console.log(detail);
+      // console.log(detail);
     };
 
     window.addEventListener(`lesson-${me}`, handleComment);
