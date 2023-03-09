@@ -79,7 +79,7 @@ export default function Body() {
               <Sidebar handleOnClick={handleOnClickFromChild} />
               <AlignItemsList
                 handleOnClick={handleOnClickFromChild}
-                re_render={GroupId.current}
+                group_id={GroupId.current}
               />
             </SidebarContainer>
           </Grid>

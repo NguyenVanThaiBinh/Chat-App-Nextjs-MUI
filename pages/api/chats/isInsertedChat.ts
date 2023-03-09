@@ -20,11 +20,11 @@ handler.get(async (req, res) => {
       .toArray();
 
     if (chatData.length != 0) {
-      res.send({ nextAuthToken: chatData[0].nextAuthToken });
+      res.send({ send_at: chatData[0].send_at });
       return;
     }
     // the first time chat, can insert
-    res.send({ nextAuthToken: false });
+    res.send({ send_at: null });
   } catch (error: any) {
     res.send(error.message);
   }

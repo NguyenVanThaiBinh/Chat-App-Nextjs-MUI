@@ -46,9 +46,6 @@ function AlignItemsList(props: any) {
         });
     }
 
-    // TODO: Run Socket sever here
-    fetch(server + "/api/socketio").finally(() => {});
-
     const setChatNameandPhotoChat = (data: any) => {
       for (let i = 0; i < data.length; i++) {
         // 2 people
@@ -72,7 +69,7 @@ function AlignItemsList(props: any) {
 
       setChatGroupData(data);
     };
-  }, [status, session, userEmail, props.re_render]);
+  }, [status, userEmail, props.group_id]);
 
   return (
     <>

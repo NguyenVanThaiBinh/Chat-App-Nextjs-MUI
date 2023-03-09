@@ -101,7 +101,6 @@ export default function CreateConversation(props: any) {
       })
         .then((response) => response.json())
         .then((new_group_id) => {
-          // console.log("AAA: " + new_group_id);
           if (new_group_id != false) {
             props.handleDoubleClick(new_group_id, memberData, newUrl);
           }
