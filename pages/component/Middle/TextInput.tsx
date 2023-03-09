@@ -26,6 +26,12 @@ export default function TextInput({ props }: { props: any }) {
       }
     }
   };
+  const buttonClick = (e: any) => {
+    e.preventDefault();
+    if (e.currentTarget.value != "") {
+      updateChatData("❤️");
+    }
+  };
   return (
     <>
       <Box>
@@ -46,7 +52,11 @@ export default function TextInput({ props }: { props: any }) {
             </FormControl>
           </Grid>
           <Grid item xs={2}>
-            <Button sx={{ marginTop: 1 }} color="primary">
+            <Button
+              sx={{ marginTop: 1, color: "red" }}
+              value={"AAA"}
+              onClick={buttonClick}
+            >
               <FavoriteRoundedIcon />
             </Button>
           </Grid>

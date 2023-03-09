@@ -92,7 +92,7 @@ export default function Body() {
           >
             {renderControl()}
           </Grid>
-          <Grid item xs={12} sm={4} xl={3.5} sx={{ textAlign: "center" }}>
+          <Grid item xs={12} sm={12} xl={3.5} sx={{ textAlign: "center" }}>
             <Information></Information>
           </Grid>
         </Grid>
