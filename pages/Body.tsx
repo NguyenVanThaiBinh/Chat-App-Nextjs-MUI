@@ -34,12 +34,12 @@ export default function Body() {
   const [mountComponentIndex, setMountComponent] = useState(0);
   const [groupData, setGroupData] = useState({});
   let GroupId = useRef("");
+
   const handleOnClickFromChild = (
     id: any,
     memberData: any,
     photoGroupChatUrl: any
   ) => {
-    GroupId.current = id;
     // using for middle component ChatMsg
     if (id != null) {
       const data = {
@@ -53,8 +53,27 @@ export default function Body() {
     // using for middle component Create New Conversation
     if (id == null) {
       setMountComponent(2);
+      setGroupData("");
     }
     return null;
+  };
+
+  const handleNewConversation = (
+    id: any,
+    memberData: any,
+    photoGroupChatUrl: any
+  ) => {
+    GroupId.current = id;
+    console.log("AAA: " + GroupId.current);
+    if (id != null) {
+      const data = {
+        groupId: id,
+        memberData: memberData,
+        photoGroupChatUrl: photoGroupChatUrl,
+      };
+      setMountComponent(1);
+      setGroupData(data);
+    }
   };
 
   const renderControl = () => {
@@ -62,9 +81,7 @@ export default function Body() {
       case 1:
         return <ChatMsg props={groupData} />;
       case 2:
-        return (
-          <CreateConversation handleDoubleClick={handleOnClickFromChild} />
-        );
+        return <CreateConversation handleDoubleClick={handleNewConversation} />;
       default:
         return <Home />;
     }
@@ -79,7 +96,7 @@ export default function Body() {
               <Sidebar handleOnClick={handleOnClickFromChild} />
               <AlignItemsList
                 handleOnClick={handleOnClickFromChild}
-                group_id={GroupId.current}
+                new_group_id={GroupId.current}
               />
             </SidebarContainer>
           </Grid>

@@ -66,10 +66,11 @@ function AlignItemsList(props: any) {
           }
         }
       }
-
+      preGroupId.current = props.new_group_id;
+      setBackgroundColor("rgb(25 127 227 / 23%)");
       setChatGroupData(data);
     };
-  }, [status, userEmail, props.group_id]);
+  }, [props.new_group_id, status]);
 
   return (
     <>
