@@ -51,7 +51,7 @@ const StyleSearchInput = styled.input`
 `;
 
 function Sidebar(props: any) {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const handleClickFromSidebar = () => props.handleOnClick(null);
 
   useEffect(() => {
@@ -64,13 +64,14 @@ function Sidebar(props: any) {
           },
           body: JSON.stringify(session?.user),
         });
+        console.log("AAAAAAAAAAAAAAAAAA");
       } catch (error) {
         console.warn("Insert User fail!");
       }
     }
     // TODO: Run Socket sever here
     fetch(server + "/api/socketio").finally(() => {});
-  }, []);
+  }, [status]);
 
   return (
     <>
