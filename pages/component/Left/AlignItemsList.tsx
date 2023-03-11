@@ -11,6 +11,7 @@ import { useSession } from "next-auth/react";
 import { server } from "../../index";
 import DefaultAvatar from "../../../asset/group_avatar.png";
 import GroupChatObject from "../../../Object/GroupChatObject";
+import { debug } from "console";
 
 const io = require("socket.io-client");
 
@@ -19,15 +20,24 @@ function AlignItemsList(props: any) {
   const [backgroundColor, setBackgroundColor] = useState("");
 
   let preGroupId = useRef();
+  let onClickGroupId = useRef();
   const { data: session, status } = useSession<any | null>();
   const userEmail = session && session.user ? session.user.email : null;
+
   const handleClick = (
     group_id: any,
     memberData: any,
     photoGroupChatUrl: any
   ) => {
-    preGroupId.current = group_id;
-    setBackgroundColor("rgb(25 127 227 / 23%)");
+    onClickGroupId.current = group_id;
+    if (!props.isEnableBlue) {
+      // preGroupId.current = "";
+      setBackgroundColor("");
+    } else {
+      preGroupId.current = group_id;
+      setBackgroundColor("rgb(25 127 227 / 23%)");
+    }
+
     const filteredMemberData = memberData.filter(
       (member: { email: string }) => member.email != userEmail
     );
@@ -66,11 +76,21 @@ function AlignItemsList(props: any) {
           }
         }
       }
-      preGroupId.current = props.new_group_id;
-      setBackgroundColor("rgb(25 127 227 / 23%)");
+      console.log(props.isEnableBlue);
+
+      if (props.isEnableBlue) {
+        preGroupId.current = onClickGroupId.current;
+        setBackgroundColor("rgb(25 127 227 / 23%)");
+      } else {
+        preGroupId.current = undefined;
+        if (props.new_group_id != null) {
+          preGroupId.current = props.new_group_id;
+          setBackgroundColor("rgb(25 127 227 / 23%)");
+        }
+      }
       setChatGroupData(data);
     };
-  }, [props.new_group_id, status]);
+  }, [props.new_group_id, status, props.isEnableBlue]);
 
   return (
     <>

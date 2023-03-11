@@ -9,7 +9,9 @@
 3.3 Auto generate chat and make a sound when start chat form 1 side.
          3.4 InsertUser API run too much.
 *3.5 When create new chat, enable blue color in new friend.
+3.5.1 Product is slow-> Make waiting status
 3.6 In search for new friend, if already friend-> after double click-> open current conversation.
+
 
 4.Add responsive and add button for Mobile, big desktop:30%
 

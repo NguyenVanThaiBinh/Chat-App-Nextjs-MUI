@@ -33,7 +33,8 @@ export default function Body() {
   // 2 for Create new Conversation
   const [mountComponentIndex, setMountComponent] = useState(0);
   const [groupData, setGroupData] = useState({});
-  let GroupId = useRef("");
+  let GroupId = useRef();
+  let isEnableBlue = useRef(true);
 
   const handleOnClickFromChild = (
     id: any,
@@ -47,13 +48,14 @@ export default function Body() {
         memberData: memberData,
         photoGroupChatUrl: photoGroupChatUrl,
       };
+      isEnableBlue.current = true;
       setMountComponent(1);
       setGroupData(data);
     }
     // using for middle component Create New Conversation
     if (id == null) {
+      isEnableBlue.current = false;
       setMountComponent(2);
-      setGroupData("");
     }
     return null;
   };
@@ -64,7 +66,6 @@ export default function Body() {
     photoGroupChatUrl: any
   ) => {
     GroupId.current = id;
-    console.log("AAA: " + GroupId.current);
     if (id != null) {
       const data = {
         groupId: id,
@@ -93,10 +94,14 @@ export default function Body() {
         <Grid container spacing={2}>
           <Grid item xs={13} sm={6} xl={3}>
             <SidebarContainer sx={{ paddingLeft: "17px" }}>
-              <Sidebar handleOnClick={handleOnClickFromChild} />
+              <Sidebar
+                handleOnClick={handleOnClickFromChild}
+                isEnableBlue={isEnableBlue.current}
+              />
               <AlignItemsList
                 handleOnClick={handleOnClickFromChild}
                 new_group_id={GroupId.current}
+                isEnableBlue={isEnableBlue.current}
               />
             </SidebarContainer>
           </Grid>

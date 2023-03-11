@@ -9,8 +9,7 @@ import Typography from "@mui/material/Typography";
 import { useSession, signOut } from "next-auth/react";
 import styled from "styled-components";
 import { server } from "../../index";
-import { useEffect, memo } from "react";
-import UserObject from "../../../Object/UserObject";
+import { useEffect, memo, useState } from "react";
 
 const StyleHeader = styled.div`
   display: flex;
@@ -52,6 +51,8 @@ const StyleSearchInput = styled.input`
 
 function Sidebar(props: any) {
   const { data: session, status } = useSession();
+  const [backgroundColor, setBackgroundColor] = useState("");
+
   const handleClickFromSidebar = () => props.handleOnClick(null);
 
   useEffect(() => {
@@ -64,7 +65,6 @@ function Sidebar(props: any) {
           },
           body: JSON.stringify(session?.user),
         });
-        console.log("AAAAAAAAAAAAAAAAAA");
       } catch (error) {
         console.warn("Insert User fail!");
       }
@@ -72,6 +72,15 @@ function Sidebar(props: any) {
     // TODO: Run Socket sever here
     fetch(server + "/api/socketio").finally(() => {});
   }, [status]);
+
+  useEffect(() => {
+   
+    if (!props.isEnableBlue) {
+      setBackgroundColor("rgb(25 127 227 / 40%)");
+    } else {
+      setBackgroundColor("");
+    }
+  }, [props.isEnableBlue]);
 
   return (
     <>
@@ -105,7 +114,10 @@ function Sidebar(props: any) {
         <SearchIcon />
         <StyleSearchInput placeholder="Search in conversations" />
       </StyleSearch>
-      <StyleSidebarButton onClick={handleClickFromSidebar}>
+      <StyleSidebarButton
+        sx={{ bgcolor: backgroundColor }}
+        onClick={handleClickFromSidebar}
+      >
         Start a new conversation
       </StyleSidebarButton>
     </>
