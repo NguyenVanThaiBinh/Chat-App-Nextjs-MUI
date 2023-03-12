@@ -16,18 +16,19 @@ const StyleGrid = styledMe(Grid)`
   }
   
 `;
-export default function ChatMsg({ props: groupData }: { props: any }) {
+export default function ChatMsg(props: any) {
   const { data: session } = useSession();
 
-  const [ChatDataProps, setChatDataProps] = useState(groupData);
+  const [ChatDataProps, setChatDataProps] = useState(props.groupData);
   useEffect(() => {
-    setChatDataProps(groupData);
-  }, [groupData]);
+   
+    setChatDataProps(props.groupData);
+  }, [props.groupData]);
 
   const handleChangDataTextInput = (chatsData: any) => {
     if (chatsData != null) {
-      groupData.ChatData = chatsData;
-      setChatDataProps(groupData);
+      props.groupData.ChatData = chatsData;
+      setChatDataProps(props.groupData);
     }
     // TODO: Add socketio
     fetch(server + "/api/socketio").finally(() => {
@@ -37,12 +38,12 @@ export default function ChatMsg({ props: groupData }: { props: any }) {
         socket.emit("on-chat", {
           content: chatsData,
           from: session?.user?.email,
-          id_chat_group: groupData.groupId,
+          id_chat_group: props.groupData.groupId,
           nickname: session?.user?.name,
           to: [
             {
-              email: groupData.memberData[0].email,
-              nickname: groupData.memberData[0].nickname,
+              email: props.groupData.memberData[0].email,
+              nickname: props.groupData.memberData[0].nickname,
               isSaw: false,
               seen_at: new Date(),
             },
@@ -63,7 +64,7 @@ export default function ChatMsg({ props: groupData }: { props: any }) {
       <Box sx={{ flexGrow: 1 }}>
         <Grid container>
           <StyleGrid item xs={12}>
-            <Conversation props={ChatDataProps}></Conversation>
+            <Conversation ChatDataProps={ChatDataProps}></Conversation>
           </StyleGrid>
           <Grid item xs={12}>
             <TextInput props={handleChangDataTextInput}></TextInput>

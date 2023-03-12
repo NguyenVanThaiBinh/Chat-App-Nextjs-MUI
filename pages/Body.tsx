@@ -82,7 +82,7 @@ export default function Body() {
   const renderControl = () => {
     switch (mountComponentIndex) {
       case 1:
-        return <ChatMsg props={groupData} />;
+        return <ChatMsg groupData={groupData} />;
       case 2:
         return <CreateConversation handleDoubleClick={handleNewConversation} />;
       default:

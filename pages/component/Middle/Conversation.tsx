@@ -11,7 +11,6 @@ import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { server } from "../../index";
 import ChatObject from "../../../Object/ChatObject";
-import type { NextRequest } from "next/server";
 
 const io = require("socket.io-client");
 
@@ -49,7 +48,7 @@ const ItemRight = styled(Paper)(({ theme }) => ({
   wordWrap: "break-word",
 }));
 
-export default function Conversation({ props: ChatDataProps }: { props: any }) {
+export default function Conversation(props: any) {
   const { data: session } = useSession();
   const [chatData, setChatData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -67,7 +66,7 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
       behavior: "smooth",
     });
   }
-  // TODO: Auto save chat  and update last content after 15s
+  // TODO: Auto save chat  and update last content after 5s
   useEffect(() => {
     let intervalForSaveChat = setInterval(() => {
       if (listChatData.current.length > 0) {
@@ -85,7 +84,7 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
     // TODO: Add socketio and render data
     const socket = io();
     socket.on("connect", () => {
-      socket.on(ChatDataProps?.groupId, (chatData: ChatObject) => {
+      socket.on(props.ChatDataProps?.groupId, (chatData: ChatObject) => {
         // just save chat data from 1 side
         if (chatData.from == userEmail && userSession == session?.expires) {
           listChatData.current.push(chatData);
@@ -109,7 +108,7 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
     }
     setLoading(true);
     //get Chat from group_id
-    fetch(server + `/api/chats/${ChatDataProps?.groupId}`)
+    fetch(server + `/api/chats/${props.ChatDataProps?.groupId}`)
       .then((response) => response.json())
       .then((data) => {
         setChatData(data);
@@ -122,7 +121,7 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
       socket.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ChatDataProps?.groupId]);
+  }, [props.ChatDataProps?.groupId]);
 
   // TODO: insertChatToDB and update last chat content
   function insertChatAndUpdateLastContentToDB(saveChatData: any) {
@@ -191,7 +190,10 @@ export default function Conversation({ props: ChatDataProps }: { props: any }) {
                       }}
                       alt="ChatAvatar"
                       imgProps={{ referrerPolicy: "no-referrer" }}
-                      src={ChatDataProps.photoGroupChatUrl || DefaultAvatar.src}
+                      src={
+                        props.ChatDataProps.photoGroupChatUrl ||
+                        DefaultAvatar.src
+                      }
                     />
                     <ItemLeft>{data.content}</ItemLeft>
                   </Grid>

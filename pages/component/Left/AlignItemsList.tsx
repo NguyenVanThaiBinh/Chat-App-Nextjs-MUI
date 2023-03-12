@@ -11,7 +11,6 @@ import { useSession } from "next-auth/react";
 import { server } from "../../index";
 import DefaultAvatar from "../../../asset/group_avatar.png";
 import GroupChatObject from "../../../Object/GroupChatObject";
-import { debug } from "console";
 
 const io = require("socket.io-client");
 
@@ -51,7 +50,7 @@ function AlignItemsList(props: any) {
       fetch(server + `/api/groups/${userEmail}`)
         .then((response) => response.json())
         .then((data) => {
-          // console.log(data);
+          console.log(data);
           if (data.length > 0) {
             setChatNameandPhotoChat(data);
           }
