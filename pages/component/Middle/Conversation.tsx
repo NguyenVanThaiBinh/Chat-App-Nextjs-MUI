@@ -170,7 +170,7 @@ export default function Conversation(props: any) {
         <Typography sx={{ textAlign: "center" }}>Loading...</Typography>
       ) : (
         <>
-          <Grid sx={{ marginBottom: 2 }}>
+          <Grid sx={{ marginBottom: 0.5 }}>
             {chatData.map((data: any, index: any) => (
               <React.Fragment key={index}>
                 {session?.user?.email != data.from ? (
