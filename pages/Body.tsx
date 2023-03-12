@@ -33,8 +33,8 @@ export default function Body() {
   // 2 for Create new Conversation
   const [mountComponentIndex, setMountComponent] = useState(0);
   const [groupData, setGroupData] = useState({});
-  let GroupId = useRef();
-  let isEnableBlue = useRef(true);
+  let newGroupId = useRef();
+  let isEnableBlueAlignItem = useRef(true);
 
   const handleOnClickFromChild = (
     id: any,
@@ -48,13 +48,14 @@ export default function Body() {
         memberData: memberData,
         photoGroupChatUrl: photoGroupChatUrl,
       };
-      isEnableBlue.current = true;
+      isEnableBlueAlignItem.current = true;
       setMountComponent(1);
       setGroupData(data);
     }
     // using for middle component Create New Conversation
     if (id == null) {
-      isEnableBlue.current = false;
+      isEnableBlueAlignItem.current = false;
+      newGroupId.current = undefined;
       setMountComponent(2);
     }
     return null;
@@ -65,13 +66,14 @@ export default function Body() {
     memberData: any,
     photoGroupChatUrl: any
   ) => {
-    GroupId.current = id;
+    newGroupId.current = id;
     if (id != null) {
       const data = {
         groupId: id,
         memberData: memberData,
         photoGroupChatUrl: photoGroupChatUrl,
       };
+      isEnableBlueAlignItem.current = true;
       setMountComponent(1);
       setGroupData(data);
     }
@@ -96,12 +98,12 @@ export default function Body() {
             <SidebarContainer sx={{ paddingLeft: "17px" }}>
               <Sidebar
                 handleOnClick={handleOnClickFromChild}
-                isEnableBlue={isEnableBlue.current}
+                isEnableBlue={isEnableBlueAlignItem.current}
               />
               <AlignItemsList
                 handleOnClick={handleOnClickFromChild}
-                new_group_id={GroupId.current}
-                isEnableBlue={isEnableBlue.current}
+                new_group_id={newGroupId.current}
+                isEnableBlue={isEnableBlueAlignItem.current}
               />
             </SidebarContainer>
           </Grid>

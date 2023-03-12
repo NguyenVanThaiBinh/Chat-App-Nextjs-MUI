@@ -24,6 +24,7 @@ function AlignItemsList(props: any) {
   const { data: session, status } = useSession<any | null>();
   const userEmail = session && session.user ? session.user.email : null;
 
+  // TODO: when click mouse
   const handleClick = (
     group_id: any,
     memberData: any,
@@ -44,6 +45,7 @@ function AlignItemsList(props: any) {
     props.handleOnClick(group_id, filteredMemberData, photoGroupChatUrl);
   };
 
+  // TODO: when mount component
   useEffect(() => {
     if (userEmail != null) {
       fetch(server + `/api/groups/${userEmail}`)
@@ -76,17 +78,19 @@ function AlignItemsList(props: any) {
           }
         }
       }
-      console.log(props.isEnableBlue);
 
+      // set enable  blue  color when click
       if (props.isEnableBlue) {
-        preGroupId.current = onClickGroupId.current;
+        //make enable blue if have new group id
+        if (props.new_group_id != undefined) {
+          preGroupId.current = props.new_group_id;
+        } else {
+          preGroupId.current = onClickGroupId.current;
+        }
         setBackgroundColor("rgb(25 127 227 / 23%)");
       } else {
-        preGroupId.current = undefined;
-        if (props.new_group_id != null) {
-          preGroupId.current = props.new_group_id;
-          setBackgroundColor("rgb(25 127 227 / 23%)");
-        }
+        //when click sidebar comeback alignItem
+        setBackgroundColor("");
       }
       setChatGroupData(data);
     };

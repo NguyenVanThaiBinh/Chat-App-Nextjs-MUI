@@ -26,7 +26,7 @@ const StyleBox2 = styledMe(Box)`
   height: 78vh;
   min-height: 50px;
   overflow-y: scroll;
-  border-right: 1px solid whitesmoke;
+
   width: "100%";
   
 

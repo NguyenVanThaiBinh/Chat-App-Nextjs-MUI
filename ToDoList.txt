@@ -18,3 +18,5 @@
 5.Can make group chat
 
 6.Security for API by JWT or anything else.
+
+7.Refractory code: make it easy to understand and opening!
