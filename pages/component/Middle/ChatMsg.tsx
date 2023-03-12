@@ -12,7 +12,7 @@ const io = require("socket.io-client");
 
 const StyleGrid = styledMe(Grid)`
   @media only screen and (max-width: 429px) { 
-  height: 49em;
+  height: 52em;
   }
   
 `;
@@ -21,7 +21,6 @@ export default function ChatMsg(props: any) {
 
   const [ChatDataProps, setChatDataProps] = useState(props.groupData);
   useEffect(() => {
-   
     setChatDataProps(props.groupData);
   }, [props.groupData]);
 

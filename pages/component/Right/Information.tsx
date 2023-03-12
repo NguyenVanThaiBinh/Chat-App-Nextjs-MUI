@@ -19,9 +19,7 @@ const StyleBox = styledMe(Box)`
   overflow-y: scroll;
   border-right: 1px solid whitesmoke;
   width: "100%";
-  @media only screen and (max-width: 429px) {
-   display:none;
-  }
+ 
   
 `;
 export default function Information() {

@@ -15,12 +15,12 @@ import ChatObject from "../../../Object/ChatObject";
 const io = require("socket.io-client");
 
 const StyleBox = styledMe(Box)`
-  height: 85vh;
+  height: 89vh;
   min-height: 50px;
   overflow-y: scroll;
   border-right: 1px solid whitesmoke;
   width: 100%;
-  margin-top: 2em;
+  margin-top: 0em;
   
 `;
 // CSS scroll is down when loading page
@@ -170,7 +170,7 @@ export default function Conversation(props: any) {
         <Typography sx={{ textAlign: "center" }}>Loading...</Typography>
       ) : (
         <>
-          <Grid sx={{ marginBottom: 3 }}>
+          <Grid sx={{ marginBottom: 2 }}>
             {chatData.map((data: any, index: any) => (
               <React.Fragment key={index}>
                 {session?.user?.email != data.from ? (

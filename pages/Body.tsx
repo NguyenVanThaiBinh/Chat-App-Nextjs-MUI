@@ -15,6 +15,11 @@ const SidebarContainer = styled(Grid)`
   overflow-y: scroll;
   border-right: 1px solid whitesmoke;
 `;
+const InformationGrid = styled(Grid)`
+  @media only screen and (max-width: 429px) {
+    display: none;
+  }
+`;
 
 const theme = createTheme({
   breakpoints: {
@@ -116,9 +121,15 @@ export default function Body() {
           >
             {renderControl()}
           </Grid>
-          <Grid item xs={12} sm={12} xl={3.5} sx={{ textAlign: "center" }}>
+          <InformationGrid
+            item
+            xs={12}
+            sm={12}
+            xl={3.5}
+            sx={{ textAlign: "center" }}
+          >
             <Information></Information>
-          </Grid>
+          </InformationGrid>
         </Grid>
       </Box>
     </ThemeProvider>

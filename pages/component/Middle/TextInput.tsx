@@ -6,6 +6,12 @@ import FormControl from "@mui/material/FormControl";
 import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
+import { styled } from "@mui/material/styles";
+const StyleBox = styled(Box)`
+  @media only screen and (max-width: 429px) {
+    margin-left: 1.5em;
+  }
+`;
 
 export default function TextInput({ props }: { props: any }) {
   const [text, setText] = useState("");
@@ -34,7 +40,7 @@ export default function TextInput({ props }: { props: any }) {
   };
   return (
     <>
-      <Box>
+      <StyleBox>
         <Grid container>
           <Grid item xs={10}>
             <FormControl size="small" fullWidth>
@@ -61,7 +67,7 @@ export default function TextInput({ props }: { props: any }) {
             </Button>
           </Grid>
         </Grid>
-      </Box>
+      </StyleBox>
     </>
   );
 }
