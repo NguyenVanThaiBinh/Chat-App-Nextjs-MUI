@@ -60,7 +60,7 @@ export default function ChatMsg(props: any) {
 
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box>
         <Grid container>
           <StyleGrid item xs={12}>
             <Conversation ChatDataProps={ChatDataProps}></Conversation>

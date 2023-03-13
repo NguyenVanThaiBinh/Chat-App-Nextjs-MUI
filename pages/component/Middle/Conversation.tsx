@@ -21,7 +21,11 @@ const StyleBox = styledMe(Box)`
   border-right: 1px solid whitesmoke;
   width: 100%;
   margin-top: 0em;
-  
+`;
+const StyleGrid = styledMe(Grid)`
+@media only screen and (max-width: 429px) {
+  padding-left:0.75em;
+ }
 `;
 // CSS scroll is down when loading page
 // display: flex;
@@ -170,11 +174,11 @@ export default function Conversation(props: any) {
         <Typography sx={{ textAlign: "center" }}>Loading...</Typography>
       ) : (
         <>
-          <Grid sx={{ marginBottom: 0.5 }}>
+          <Grid>
             {chatData.map((data: any, index: any) => (
               <React.Fragment key={index}>
                 {session?.user?.email != data.from ? (
-                  <Grid
+                  <StyleGrid
                     sx={{ marginTop: 1 }}
                     item
                     xs={12}
@@ -196,7 +200,7 @@ export default function Conversation(props: any) {
                       }
                     />
                     <ItemLeft>{data.content}</ItemLeft>
-                  </Grid>
+                  </StyleGrid>
                 ) : (
                   <Grid
                     sx={{ marginTop: 1 }}

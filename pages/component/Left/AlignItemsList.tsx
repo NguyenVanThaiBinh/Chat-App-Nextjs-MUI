@@ -142,6 +142,7 @@ function AlignItemsList(props: any) {
               <ListItemText
                 sx={{
                   color: "black",
+                  overflow: "hidden",
                 }}
                 primary={object.chat_name}
                 secondary={

@@ -40,6 +40,7 @@ export default function Body() {
   const [groupData, setGroupData] = useState({});
   let newGroupId = useRef();
   let isEnableBlueAlignItem = useRef(true);
+  let isDisplayChatMsg = useRef(true);
 
   const handleOnClickFromChild = (
     id: any,
@@ -54,7 +55,9 @@ export default function Body() {
         photoGroupChatUrl: photoGroupChatUrl,
       };
       isEnableBlueAlignItem.current = true;
+      isDisplayChatMsg.current = true;
       setMountComponent(1);
+
       setGroupData(data);
     }
     // using for middle component Create New Conversation
